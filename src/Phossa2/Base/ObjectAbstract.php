@@ -15,7 +15,7 @@
 namespace Phossa2\Base;
 
 /**
- * Object
+ * ObjectAbstract
  *
  * Base object class
  *
@@ -25,7 +25,7 @@ namespace Phossa2\Base;
  * @version 2.0.0
  * @since   2.0.0 added
  */
-class Object implements ClassNameInterface
+abstract class ObjectAbstract implements ClassNameInterface
 {
     use ClassNameTrait;
 }

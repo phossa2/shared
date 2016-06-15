@@ -21,10 +21,11 @@ namespace Phossa2\Base;
  *
  * @package Phossa2\Shared
  * @author  Hong Zhang <phossa@126.com>
+ * @see     ClassNameInterface
  * @version 2.0.0
  * @since   2.0.0 added
  */
-abstract class StaticAbstract
+abstract class StaticAbstract implements ClassNameInterface
 {
-    use StaticTrait;
+    use StaticTrait, ClassNameTrait;
 }

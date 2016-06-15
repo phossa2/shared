@@ -47,10 +47,10 @@ interface MessageInterface
      * MyMessage::get(MyMessage::MSG_HELLO, 'John');
      * ```
      *
-     * @param  int $messageCode
+     * @param  int $code message code
      * @return string
      * @access public
      * @api
      */
-    public static function get(/*# int */ $messageCode)/*# : string */;
+    public static function get(/*# int */ $code)/*# : string */;
 }

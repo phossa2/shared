@@ -164,31 +164,22 @@ trait MappingTrait
         /*# int */ $code,
         /*# string */ $class
     )/*# : string */ {
-        // search $code upwards in inheritance tree
-        do {
-            // default message template
-            $template = 'message: %s';
+        // default template, last resort
+        if (__CLASS__ === $class) {
+            return "unknown message code: $code, %s";
+        }
 
-            // code is defined for $class
-            if ($class::messageDefined($code)) {
-                // load message mapping for $class
-                $class::loadMappings();
+        // check $class
+        if ($class::messageDefined($code)) {
+            // load message mapping for $class
+            $class::loadMappings();
 
-                // get the message template
-                $template = $class::getMessage($code);
-                break;
-            }
+            // get the message template
+            return $class::getMessage($code);
+        }
 
-            // last resort, use the default message template
-            if ($class === __CLASS__) {
-                break;
-            }
-
-            $class = get_parent_class($class);
-
-        } while ($class);
-
-        return $template;
+        // search upwards
+        return self::getTemplateByCode($code, get_parent_class($class));
     }
 
     /**
@@ -210,8 +201,7 @@ trait MappingTrait
         $loadedClass = static::hasLoader(true);
         static::setMappings(
             $loadedClass ?
-                $loadedClass::getLoader()->loadMessages(get_called_class()) :
-                [],
+                $loadedClass::getLoader()->loadMessages(get_called_class()) : [],
             false
         );
     }

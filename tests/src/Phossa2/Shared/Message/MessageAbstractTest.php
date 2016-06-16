@@ -55,7 +55,7 @@ class MessageAbstractTest extends \PHPUnit_Framework_TestCase
 
         // message code not exist, use default template
         $this->assertEquals(
-            'message: code not found',
+            'unknown message code: 1005, code not found',
             MessageTwo::get(1005, "code not found")
         );
 

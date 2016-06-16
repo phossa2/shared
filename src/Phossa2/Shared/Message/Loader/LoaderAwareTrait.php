@@ -107,15 +107,14 @@ trait LoaderAwareTrait
         /*# bool */ $search = false
     ) {
         $class = get_called_class();
+
         if (isset(self::$loaders[$class])) {
             return $class;
         }
 
-        if ($search) {
-            $class = get_parent_class($class);
-            if ($class && method_exists($class, 'hasLoader')) {
-                return $class::hasLoader(true);
-            }
+        $parent = get_parent_class($class);
+        if ($search && $parent && method_exists($parent, 'hasLoader')) {
+            return $parent::hasLoader(true);
         }
 
         return false;

@@ -38,7 +38,7 @@ Features
 
   All phossa2 exceptions implement `Phossa2\Shared\Exception\ExceptionInterface`.
 
-  To extend phossa2 exceptions,
+  To implment phossa2 exception interface,
 
   ```php
   <?php
@@ -46,9 +46,7 @@ Features
 
   use Phossa2\Shared\Exception\ExceptionInterface;
 
-  class BadMethodCallException
-      extends \BadMethodCallException
-      implements ExceptionInterface
+  class BadMethodCallException extends \BadMethodCallException implements ExceptionInterface
   {
   }
   ```
@@ -84,12 +82,12 @@ Features
     }
     ```
 
-  - Use message class
+  - Using message class
 
     Usually only `Message::get()` and `Message::CONST_VALUE` are used.
 
     ```php
-    use Phossa\Cache\Message\CaseMessage;
+    use Phossa2\Cache\Message\CaseMessage;
     ...
     // throw exception
     throw new \RuntimeException(
@@ -129,7 +127,7 @@ Features
     namespace Phossa2\Cache;
 
     use Phossa2\Cache\Message\CaseMessage;
-    use Phossa\Shared\Message\Formatter\HtmlFormatter;
+    use Phossa2\Shared\Message\Formatter\HtmlFormatter;
 
     // format message as HTML
     $formatter = new HtmlFormatter();
@@ -142,18 +140,18 @@ Features
     );
     ```
 
-- **Utilities**
+- **Utility**
 
   Some useful utilities here.
 
   - `ClassNameTrait`
 
     PHP 5.4 has `::class` feature missing. `ClassNameTrait` provides three
-    utility functions `::getClassName()`, `::getShortName()`, `::getNameSpace()`
+    static methods `::getClassName()`, `::getShortName()`, `::getNameSpace()`
 
   - `StaticAbstract`
 
-    Used to be extended by other *STATIC* classes.
+    Used to be extended by other **STATIC** classes.
 
     ```php
     <?php
@@ -164,6 +162,17 @@ Features
         ...
     }
     ```
+- **Trait*
+
+  Some useful traits in the `Aware/` directory
+
+  - `TagAwareTrait` adding tag support
+
+- **Interface**
+
+  Some useful interfaces are in the `Contract/` directory.
+
+  - `ArrayableInterface`
 
 - Support PHP 5.4+, PHP 7.0+, HHVM
 

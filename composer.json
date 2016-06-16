@@ -4,7 +4,7 @@
     "license": "MIT",
     "homepage": "https://github.com/phossa2/shared",
     "description": "The shared library for other phossa2 libraries",
-    "keywords": [ "phossa2", "phossa", "library", "php" ],
+    "keywords": [ "phossa2", "phossa", "library", "php", "framework" ],
     "authors": [
         {
             "name": "Hong Zhang",

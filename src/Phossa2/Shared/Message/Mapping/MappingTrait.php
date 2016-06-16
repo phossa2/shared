@@ -172,7 +172,7 @@ trait MappingTrait
             // code is defined for $class
             if ($class::messageDefined($code)) {
                 // load message mapping for $class
-                self::loadMappings($class);
+                $class::loadMappings();
 
                 // get the message template
                 $template = $class::getMessage($code);
@@ -194,33 +194,38 @@ trait MappingTrait
     /**
      * Load message mappings into cache for $class
      *
-     * @param  string $class fully qualified class name
      * @access protected
      */
-    protected static function loadMappings(/*# string */ $class)
+    protected static function loadMappings()
     {
-        // mapping status changed ?
-        if (self::isStatusUpdated()) {
-            self::resetMappings();
-            self::setStatus(false);
-        }
+        // check status
+        self::checkStatus();
 
-        // $class' mapping loaded already
-        if ($class::hasMappings()) {
+        // mapping cache loaded already for $class
+        if (static::hasMappings()) {
             return;
         }
 
         // load $class mapping
-        $loadedClass = $class::hasLoader(true);
-        if ($loadedClass) {
-            // loader found
-            $class::setMappings(
-                $loadedClass::getLoader()->loadMessages($class),
-                false
-            );
-        } else {
-            // empty cache
-            $class::setMappings([], false);
+        $loadedClass = static::hasLoader(true);
+        static::setMappings(
+            $loadedClass ?
+                $loadedClass::getLoader()->loadMessages(get_called_class()) :
+                [],
+            false
+        );
+    }
+
+    /**
+     * Update mapping cache if status changed
+     *
+     * @access protected
+     */
+    protected static function checkStatus()
+    {
+        if (self::isStatusUpdated()) {
+            self::resetMappings();
+            self::setStatus(false);
         }
     }
 }

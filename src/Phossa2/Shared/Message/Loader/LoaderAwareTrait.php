@@ -71,7 +71,7 @@ trait LoaderAwareTrait
     public static function unsetLoader(/*# bool */ $search = false)
     {
         $class = static::hasLoader($search);
-        if ($class) {
+        if (false !== $class) {
             // unset loader for current class
             unset(self::$loaders[$class]);
 

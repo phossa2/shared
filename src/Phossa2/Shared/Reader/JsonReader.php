@@ -38,9 +38,6 @@ class JsonReader extends ReaderAbstract
         \JSON_ERROR_CTRL_CHAR => 'Control character error, possibly incorrectly encoded',
         \JSON_ERROR_SYNTAX => 'Syntax error',
         \JSON_ERROR_UTF8 => 'Malformed UTF-8 characters, possibly incorrectly encoded',
-        \JSON_ERROR_RECURSION => 'Recursion found',
-        \JSON_ERROR_INF_OR_NAN => 'NaN found',
-        \JSON_ERROR_UNSUPPORTED_TYPE => 'Unsupported type found',
     ];
 
     /**
@@ -56,9 +53,13 @@ class JsonReader extends ReaderAbstract
      */
     protected static function getError(/*# string */ $path)/*#: string */
     {
-        $error = json_last_error();
-        return isset(static::$error[$error]) ?
-            static::$error[$error] :
-            'JSON parse error';
+        if (function_exists('json_last_error_msg')) {
+            return json_last_error_msg();
+        } else {
+            $error = json_last_error();
+            return isset(static::$error[$error]) ?
+                static::$error[$error] :
+                'JSON parse error';
+        }
     }
 }

@@ -50,7 +50,7 @@ class DefaultFormatter extends ObjectAbstract implements FormatterInterface
     {
         array_walk($arguments, function (&$value) {
             $value = is_scalar($value) ? (string) $value :
-            substr(print_r($value, true), 0, 50);
+                substr(print_r($value, true), 0, 50);
         });
         return $this;
     }

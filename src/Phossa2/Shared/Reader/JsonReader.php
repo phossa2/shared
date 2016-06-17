@@ -58,8 +58,7 @@ class JsonReader extends ReaderAbstract
         } else {
             $error = json_last_error();
             return isset(static::$error[$error]) ?
-                static::$error[$error] :
-                'JSON parse error';
+                static::$error[$error] : 'JSON parse error';
         }
     }
 }

@@ -27,36 +27,36 @@ class Message extends MessageAbstract
     /*
      * Class "%s" not found
      */
-    const MSG_CLASS_NOTFOUND    = 1606161030;
+    const MSG_CLASS_NOTFOUND = 1606161030;
 
     /*
      * Static class "%s" not instantiable
      */
-    const MSG_CLASS_STATIC      = 1606161031;
+    const MSG_CLASS_STATIC = 1606161031;
 
     /*
      * Path "%s" not found
      */
-    const MSG_PATH_NOTFOUND     = 1606161040;
+    const MSG_PATH_NOTFOUND = 1606161040;
 
     /*
      * Path "%s" not readable
      */
-    const MSG_PATH_NONREADABLE  = 1606161041;
+    const MSG_PATH_NONREADABLE = 1606161041;
 
     /*
      * Path "%s" not writable
      */
-    const MSG_PATH_NONWRITABLE  = 1606161042;
+    const MSG_PATH_NONWRITABLE = 1606161042;
 
     /**
      * {@inheritDoc}
      */
     protected static $messages = [
-        self::MSG_CLASS_NOTFOUND    => 'Class "%s" not found',
-        self::MSG_CLASS_STATIC      => 'Static class "%s" not instantiable',
-        self::MSG_PATH_NOTFOUND     => 'Path "%s" not found',
-        self::MSG_PATH_NONREADABLE  => 'Path "%s" not readable',
-        self::MSG_PATH_NONWRITABLE  => 'Path "%s" not writable',
+        self::MSG_CLASS_NOTFOUND => 'Class "%s" not found',
+        self::MSG_CLASS_STATIC => 'Static class "%s" not instantiable',
+        self::MSG_PATH_NOTFOUND => 'Path "%s" not found',
+        self::MSG_PATH_NONREADABLE => 'Path "%s" not readable',
+        self::MSG_PATH_NONWRITABLE => 'Path "%s" not writable',
     ];
 }

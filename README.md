@@ -1,5 +1,6 @@
 # phossa2/shared
 [![Build Status](https://travis-ci.org/phossa2/shared.svg?branch=master)](https://travis-ci.org/phossa2/shared)
+[![Code Quality](https://scrutinizer-ci.com/g/phossa2/shared/badges/quality-score.png?b=master)](https://travis-ci.org/phossa2/shared)
 [![HHVM](https://img.shields.io/hhvm/phossa2/shared.svg?style=flat)](http://hhvm.h4cc.de/package/phossa2/shared)
 [![Latest Stable Version](https://img.shields.io/packagist/vpre/phossa2/shared.svg?style=flat)](https://packagist.org/packages/phossa2/shared)
 [![License](https://poser.pugx.org/phossa2/shared/license)](http://mit-license.org/)

@@ -30,6 +30,25 @@ use Phossa2\Shared\Exception\NotFoundException;
 abstract class ReaderAbstract extends StaticAbstract implements ReaderInterface
 {
     /**
+     * {@inheritDoc}
+     */
+    public static function readFile(/*# string */ $path)
+    {
+        // check file
+        static::checkPath($path);
+
+        // read file
+        $data = static::readFromFile($path);
+
+        // exception on error
+        if (false === $data || null === $data) {
+            throw new RuntimeException(static::getError($path));
+        }
+
+        return $data;
+    }
+
+    /**
      * Check path existance & readability
      *
      * @param  string $path
@@ -53,5 +72,30 @@ abstract class ReaderAbstract extends StaticAbstract implements ReaderInterface
                 Message::MSG_PATH_NONREADABLE
             );
         }
+    }
+
+    /**
+     * Get custom error
+     *
+     * @param  string $path
+     * @access protected
+     * @static
+     */
+    protected static function getError(/*# string */ $path)/*#: string */
+    {
+        // default
+        return error_get_last()['message'];
+    }
+
+    /**
+     * Really read from file
+     *
+     * @param  string $path
+     * @return mixed
+     * @access protected
+     * @static
+     */
+    protected static function readFromFile($path)
+    {
     }
 }

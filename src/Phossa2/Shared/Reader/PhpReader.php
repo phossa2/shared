@@ -29,20 +29,15 @@ class PhpReader extends ReaderAbstract
     /**
      * {@inheritDoc}
      */
-    public static function readFile(/*# string */ $path)
+    protected static function readFromFile($path)
     {
-        // check first
-        static::checkPath($path);
-
-        // can not catch syntext error
         try {
-            $data = include $path;
+            return include $path;
         } catch (\Exception $exception) {
             throw new RuntimeException(
                 $exception->getMessage(),
                 $exception->getCode()
             );
         }
-        return $data;
     }
 }

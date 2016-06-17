@@ -14,8 +14,6 @@
 
 namespace Phossa2\Shared\Reader;
 
-use Phossa2\Shared\Exception\RuntimeException;
-
 /**
  * Read & parse ini formatted file and return the result
  *
@@ -29,19 +27,8 @@ class IniReader extends ReaderAbstract
     /**
      * {@inheritDoc}
      */
-    public static function readFile(/*# string */ $path)
+    protected static function readFromFile($path)
     {
-        // check first
-        static::checkPath($path);
-
-        // load ini file
-        $data = @parse_ini_file($path, true);
-
-        if (false === $data) {
-            $error = error_get_last();
-            throw new RuntimeException($error['message']);
-        }
-
-        return $data;
+        return @parse_ini_file($path, true);
     }
 }

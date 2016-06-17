@@ -31,7 +31,7 @@ class HtmlFormatter extends DefaultFormatter
      * @var    string
      * @access protected
      */
-    protected $openTag  = '<span class="message">';
+    protected $openTag = '<span class="message">';
 
     /**
      * closing tag

@@ -32,7 +32,10 @@ class JsonReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadFile1()
     {
-        JsonReader::readFile(__DIR__ . './bad.json');
+        $this->assertEquals(
+            ['Test' => 'ddd'],
+            JsonReader::readFile(__DIR__ . '/bad.json')
+        );
     }
 
     /**

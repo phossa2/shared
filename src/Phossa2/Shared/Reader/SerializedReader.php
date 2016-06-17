@@ -14,8 +14,6 @@
 
 namespace Phossa2\Shared\Reader;
 
-use Phossa2\Shared\Exception\RuntimeException;
-
 /**
  * Read serialized formatted content from file
  *
@@ -29,19 +27,8 @@ class SerializedReader extends ReaderAbstract
     /**
      * {@inheritDoc}
      */
-    public static function readFile(/*# string */ $path)
+    protected static function readFromFile($path)
     {
-        // check first
-        static::checkPath($path);
-
-        // read
-        $data = @unserialize(file_get_contents($path));
-
-        if (false === $data) {
-            $error = error_get_last();
-            throw new RuntimeException($error['message']);
-        }
-
-        return $data;
+        return @unserialize(file_get_contents($path));
     }
 }

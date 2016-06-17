@@ -14,9 +14,6 @@
 
 namespace Phossa2\Shared\Reader;
 
-use Phossa2\Shared\Message\Message;
-use Phossa2\Shared\Exception\RuntimeException;
-
 /**
  * Read & parse json formatted file and return the result
  *
@@ -44,33 +41,24 @@ class JsonReader extends ReaderAbstract
         \JSON_ERROR_RECURSION => 'Recursion found',
         \JSON_ERROR_INF_OR_NAN => 'NaN found',
         \JSON_ERROR_UNSUPPORTED_TYPE => 'Unsupported type found',
-        \JSON_ERROR_INVALID_PROPERTY_NAME => 'Invalid property name found',
-        \JSON_ERROR_UTF16 => 'Malformed UTF-16 characters, possibly incorrectly encoded',
     ];
 
     /**
      * {@inheritDoc}
      */
-    public static function readFile(/*# string */ $path)
+    protected static function readFromFile($path)
     {
-        // check first
-        static::checkPath($path);
+        return @json_decode(file_get_contents($path), true);
+    }
 
-        // read it
-        $data  = @json_decode(file_get_contents($path), true);
-
-        // check error if any
+    /**
+     * {@inheritDoc}
+     */
+    protected static function getError(/*# string */ $path)/*#: string */
+    {
         $error = json_last_error();
-        if ($error !== \JSON_ERROR_NONE) {
-            if (function_exists('json_last_error_msg')) {
-                $message = json_last_error_msg();
-            } else {
-                $message = isset(static::$error[$error]) ?
-                    static::$error[$error] : 'Unknown JSON error';
-            }
-            throw new RuntimeException(Message::get($message), $error);
-        }
-
-        return $data;
+        return isset(static::$error[$error]) ?
+            static::$error[$error] :
+            'JSON parse error';
     }
 }

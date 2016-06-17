@@ -14,8 +14,6 @@
 
 namespace Phossa2\Shared\Reader;
 
-use Phossa2\Shared\Exception\RuntimeException;
-
 /**
  * Read & parse xml formatted file and return the result
  *
@@ -29,21 +27,19 @@ class XmlReader extends ReaderAbstract
     /**
      * {@inheritDoc}
      */
-    public static function readFile(/*# string */ $path)
+    protected static function readFromFile($path)
     {
-        // check first
-        static::checkPath($path);
+        $data = @simplexml_load_file($path);
+        return $data ? @json_decode(json_encode($data), true) : false;
+    }
 
-        // read it
-        @$data = simplexml_load_file($path);
-
-        if (false === $data) {
-            libxml_use_internal_errors(true);
-            simplexml_load_file($path, null, \LIBXML_NOERROR);
-            $errors = libxml_get_errors();
-            throw new RuntimeException($errors[0]->message);
-        }
-
-        return json_decode(json_encode($data), true);
+    /**
+     * {@inheritDoc}
+     */
+    protected static function getError(/*# string */ $path)/*#: string */
+    {
+        libxml_use_internal_errors(true);
+        simplexml_load_file($path, null, \LIBXML_NOERROR);
+        return libxml_get_errors()[0]->message;
     }
 }

@@ -113,7 +113,7 @@ trait TagAwareTrait
     public function hasTags(array $tags)/*# : array */
     {
         $x = [];
-        foreach($tags as $tag) {
+        foreach ($tags as $tag) {
             if ($this->hasTag($tag)) {
                 $x[] = $tag;
             }

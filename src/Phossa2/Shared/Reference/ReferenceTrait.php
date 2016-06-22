@@ -103,9 +103,11 @@ trait ReferenceTrait
      */
     public function deReference(/*# string */ $subject)
     {
-        $loop = 0;
+        $cnt = 0;
+        $max = 9;
         $matched = [];
-        while ($loop++ < 8 && $this->hasReference($subject, $matched)) {
+
+        while (++$cnt < $max && $this->hasReference($subject, $matched)) {
             // resolving
             $val = $this->resolveReference($matched[2]);
 
@@ -116,15 +118,17 @@ trait ReferenceTrait
             // partial matched
             } elseif (is_string($val)) {
                 $subject = str_replace($matched[1], $val, $subject);
-
-            // malformed
-            } else {
-                throw new RuntimeException(
-                    Message::get(Message::MSG_REF_MALFORMED, $subject),
-                    Message::MSG_REF_MALFORMED
-                );
             }
         }
+
+        // malformed subject found
+        if ($cnt == $max) {
+            throw new RuntimeException(
+                Message::get(Message::MSG_REF_MALFORMED, $subject),
+                Message::MSG_REF_MALFORMED
+            );
+        }
+
         return $subject;
     }
 

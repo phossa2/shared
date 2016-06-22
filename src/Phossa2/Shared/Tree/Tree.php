@@ -91,7 +91,7 @@ class Tree extends ObjectAbstract
         $result = [];
         foreach ($data as $k => $v) {
             $res = &$this->searchNode($k, $result);
-            $res = is_array($v) ? $this->fixValue($v) : $v;
+            $res = is_array($v) ? $this->fixTree($v) : $v;
         }
         return $result;
     }

@@ -66,4 +66,14 @@ interface ReferenceInterface
      * @api
      */
     public function deReference(/*# string */ $subject);
+
+    /**
+     * Derefence all references in an array
+     *
+     * @param  array &$dataArray
+     * @throws RuntimeException if malformed reference found
+     * @access public
+     * @api
+     */
+    public function deReferenceArray(array &$dataArray);
 }

@@ -14,6 +14,9 @@
 
 namespace Phossa2\Shared\Reference;
 
+use Phossa2\Shared\Message\Message;
+use Phossa2\Shared\Exception\RuntimeException;
+
 /**
  * ReferenceTrait
  *
@@ -44,7 +47,7 @@ trait ReferenceTrait
     protected $ref_end = '}';
 
     /**
-     * pattern to match
+     * cached pattern to match
      *
      * @var    string
      * @access protected
@@ -89,9 +92,8 @@ trait ReferenceTrait
         $m = [];
         if (is_string($subject) &&
             false !== strpos($subject, $this->ref_start) &&
-            preg_match($this->ref_pattern, $subject, $m)
+            preg_match($this->ref_pattern, $subject, $matched)
         ) {
-            $matched[$m[1]] = $m[2];
             return true;
         }
         return false;
@@ -104,28 +106,45 @@ trait ReferenceTrait
     {
         $loop = 0;
         $matched = [];
-        while ($this->hasReference($subject, $matched)) {
+        while ($loop++ < 8 && $this->hasReference($subject, $matched)) {
             // resolving
-            $val = $this->resolveReference($matched[1]);
+            $val = $this->resolveReference($matched[2]);
 
-            // loop found
-            if ($loop++ > 10) {
-                // throw exception
-
-            // matched whole target
-            } elseif ($matched[0] === $subject) {
+            // full match
+            if ($matched[1] === $subject) {
                 return $val;
 
             // partial matched
             } elseif (is_string($val)) {
-                $subject = str_replace($matched[0], $val, $subject);
+                $subject = str_replace($matched[1], $val, $subject);
 
-            // malformed target
+            // malformed
             } else {
-                // throw exception
+                throw new RuntimeException(
+                    Message::get(Message::MSG_REF_MALFORMED, $subject),
+                    Message::MSG_REF_MALFORMED
+                );
             }
         }
         return $subject;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function deReferenceArray(array &$dataArray)
+    {
+        foreach ($dataArray as $idx => &$data) {
+            if (is_array($data)) {
+                $this->dereferenceArray($data);
+
+            } elseif (is_string($data)) {
+                $data = $this->deReference($data);
+                if (is_array($data)) {
+                    $this->dereferenceArray($data);
+                }
+            }
+        }
     }
 
     /**
@@ -137,12 +156,18 @@ trait ReferenceTrait
      */
     protected function resolveReference(/*# string */ $name)
     {
+        // unresolved found
+        if (isset($this->unresolved[$name])) {
+            return $this->unresolved[$name];
+        }
+
+        // get the referenced value
         $val = $this->getReference($name);
 
         // not found
         if (is_null($val)) {
-            $this->unresolved[$name] = true;
-            return $this->resolveUnknown($name);
+            $this->unresolved[$name] = $this->resolveUnknown($name);
+            return $this->unresolved[$name];
 
         // found it
         } else {
@@ -151,16 +176,13 @@ trait ReferenceTrait
     }
 
     /**
-     * For unknown reference $name, NEED OVERLOAD
+     * For unknown reference $name
      *
      * @param  string $name
      * @return mixed
      * @access protected
      */
-    protected function resolveUnknown(/*# string */ $name)
-    {
-        return '';
-    }
+    abstract protected function resolveUnknown(/*# string */ $name);
 
     /**
      * The real resolving method. return NULL for unknown reference

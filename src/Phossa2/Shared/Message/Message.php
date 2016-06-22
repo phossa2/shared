@@ -19,7 +19,7 @@ namespace Phossa2\Shared\Message;
  *
  * @package Phossa2\Shared
  * @author  Hong Zhang <phossa@126.com>
- * @version 2.0.2
+ * @version 2.0.4
  * @since   2.0.0 added
  */
 class Message extends MessageAbstract
@@ -54,6 +54,11 @@ class Message extends MessageAbstract
      */
     const MSG_PATH_TYPE_UNKNOWN = 1606161043;
 
+    /*
+     * Malformed reference "%s" found
+     */
+    const MSG_REF_MALFORMED = 1606161044;
+
     /**
      * {@inheritDoc}
      */
@@ -64,5 +69,6 @@ class Message extends MessageAbstract
         self::MSG_PATH_NONREADABLE => 'Path "%s" not readable',
         self::MSG_PATH_NONWRITABLE => 'Path "%s" not writable',
         self::MSG_PATH_TYPE_UNKNOWN => 'Path type "%s" unknown',
+        self::MSG_REF_MALFORMED => 'Malformed reference "%s" found',
     ];
 }

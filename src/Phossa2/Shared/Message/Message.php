@@ -19,7 +19,7 @@ namespace Phossa2\Shared\Message;
  *
  * @package Phossa2\Shared
  * @author  Hong Zhang <phossa@126.com>
- * @version 2.0.1
+ * @version 2.0.2
  * @since   2.0.0 added
  */
 class Message extends MessageAbstract
@@ -49,6 +49,11 @@ class Message extends MessageAbstract
      */
     const MSG_PATH_NONWRITABLE = 1606161042;
 
+    /*
+     * Path type "%s" unknown
+     */
+    const MSG_PATH_TYPE_UNKNOWN = 1606161043;
+
     /**
      * {@inheritDoc}
      */
@@ -58,5 +63,6 @@ class Message extends MessageAbstract
         self::MSG_PATH_NOTFOUND => 'Path "%s" not found',
         self::MSG_PATH_NONREADABLE => 'Path "%s" not readable',
         self::MSG_PATH_NONWRITABLE => 'Path "%s" not writable',
+        self::MSG_PATH_TYPE_UNKNOWN => 'Path type "%s" unknown',
     ];
 }

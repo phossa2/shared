@@ -21,7 +21,7 @@ use Phossa2\Shared\Message\Message;
  *
  * @package Phossa2\Shared
  * @author  Hong Zhang <phossa@126.com>
- * @version 2.0.1
+ * @version 2.0.2
  * @since   2.0.0 added
  */
 return [
@@ -30,4 +30,5 @@ return [
     Message::MSG_PATH_NOTFOUND => '文件 "%s" 不存在',
     Message::MSG_PATH_NONREADABLE => '文件 "%s" 不可读',
     Message::MSG_PATH_NONWRITABLE => '文件 "%s" 不可写',
+    Message::MSG_PATH_TYPE_UNKNOWN => '未知文件后缀 "%s"',
 ];

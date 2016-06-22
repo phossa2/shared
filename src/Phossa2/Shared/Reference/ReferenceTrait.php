@@ -89,7 +89,6 @@ trait ReferenceTrait
         /*# string */ $subject,
         array &$matched
     )/*# : bool */ {
-        $m = [];
         if (is_string($subject) &&
             false !== strpos($subject, $this->ref_start) &&
             preg_match($this->ref_pattern, $subject, $matched)
@@ -134,16 +133,15 @@ trait ReferenceTrait
      */
     public function deReferenceArray(array &$dataArray)
     {
-        foreach ($dataArray as $idx => &$data) {
-            if (is_array($data)) {
-                $this->dereferenceArray($data);
+        if (!is_array($dataArray)) {
+            return;
+        }
 
-            } elseif (is_string($data)) {
+        foreach ($dataArray as &$data) {
+            if (is_string($data)) {
                 $data = $this->deReference($data);
-                if (is_array($data)) {
-                    $this->dereferenceArray($data);
-                }
             }
+            $this->dereferenceArray($data);
         }
     }
 

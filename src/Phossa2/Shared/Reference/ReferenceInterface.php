@@ -70,10 +70,10 @@ interface ReferenceInterface
     /**
      * Derefence all references in an array
      *
-     * @param  array &$dataArray
+     * @param  mixed &$dataArray skip if not array
      * @throws RuntimeException if malformed reference found
      * @access public
      * @api
      */
-    public function deReferenceArray(array &$dataArray);
+    public function deReferenceArray(&$dataArray);
 }

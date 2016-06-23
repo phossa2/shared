@@ -51,7 +51,7 @@ class Tree extends ObjectAbstract
      * @access public
      * @api
      */
-    public function __construct(array $data, /*# string */ $splitter = '.')
+    public function __construct(array $data = [], /*# string */ $splitter = '.')
     {
         $this->splitter = $splitter;
         $this->tree = $this->fixTree($data);
@@ -85,6 +85,39 @@ class Tree extends ObjectAbstract
             $result = &$this->searchNode($nodeName, $this->tree, false);
         }
         return $result;
+    }
+
+    /**
+     * Has node in tree or not
+     *
+     * @param  string $nodeName
+     * @return bool
+     * @access public
+     * @api
+     */
+    public function hasNode(/*# string */ $nodeName)/*# : bool */
+    {
+        if (null === $this->getNode($nodeName)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Add one node
+     *
+     * @param  string $nodeName
+     * @param  mixed $data
+     * @return $this
+     * @access public
+     * @api
+     */
+    public function addNode(/*# string */ $nodeName, $data)
+    {
+        $node = &$this->searchNode($nodeName, $this->tree, true);
+        $node = $this->fixTree($data);
+        return $this;
     }
 
     /**

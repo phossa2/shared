@@ -50,7 +50,6 @@ class TreeTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers Phossa2\Shared\Tree\Tree::getNode();
-     * Tests Tree->getNode()
      */
     public function testGetNode()
     {
@@ -70,6 +69,26 @@ class TreeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             null,
             $this->tree->getNode('test.test4')
+        );
+    }
+
+    /**
+     * @covers Phossa2\Shared\Tree\Tree::deleteNode();
+     */
+    public function testDeleteNode()
+    {
+        // delete 1
+        $this->tree->deleteNode('test.test2');
+        $this->assertEquals(
+            ['test1' => 'bingo'],
+            $this->tree->getNode('test')
+        );
+
+        // delete 2
+        $this->tree->deleteNode('test');
+        $this->assertEquals(
+            [],
+            $this->tree->getTree()
         );
     }
 }

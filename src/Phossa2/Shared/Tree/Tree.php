@@ -23,6 +23,7 @@ use Phossa2\Shared\Base\ObjectAbstract;
  * @author  Hong Zhang <phossa@126.com>
  * @version 2.0.3
  * @since   2.0.3 added
+ * @since   2.0.5 added deleteNode()
  */
 class Tree extends ObjectAbstract
 {
@@ -48,6 +49,7 @@ class Tree extends ObjectAbstract
      * @param  array $data
      * @param  string $splitter
      * @access public
+     * @api
      */
     public function __construct(array $data, /*# string */ $splitter = '.')
     {
@@ -60,6 +62,7 @@ class Tree extends ObjectAbstract
      *
      * @return array
      * @access public
+     * @api
      */
     public function getTree()/*# : array */
     {
@@ -72,11 +75,41 @@ class Tree extends ObjectAbstract
      * @param  string $nodeName
      * @return mixed
      * @access public
+     * @api
      */
-    public function getNode(/*# string */ $nodeName)
+    public function &getNode(/*# string */ $nodeName)
     {
-        $result = &$this->searchNode($nodeName, $this->tree, false);
+        if ('' === $nodeName) {
+            $result = &$this->tree;
+        } else {
+            $result = &$this->searchNode($nodeName, $this->tree, false);
+        }
         return $result;
+    }
+
+    /**
+     * Delete one node if exists
+     *
+     * @param  string $nodeName
+     * @return $this
+     * @access public
+     * @since  2.0.5
+     * @api
+     */
+    public function deleteNode(/*# string */ $nodeName)
+    {
+        if ('' === $nodeName) {
+            $this->tree = [];
+        } else {
+            $current = &$this->getNode($nodeName);
+            if (null !== $current) {
+                $split = explode($this->splitter, $nodeName);
+                $name  = array_pop($split);
+                $upper = &$this->getNode(join($this->splitter, $split));
+                unset($upper[$name]);
+            }
+        }
+        return $this;
     }
 
     /**
@@ -101,7 +134,7 @@ class Tree extends ObjectAbstract
      *
      * @param  string $key
      * @param  array &$data
-     * @param  bool $create create the node if not exist
+     * @param  bool $create
      * @access protected
      */
     protected function &searchNode(

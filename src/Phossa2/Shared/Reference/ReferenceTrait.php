@@ -14,9 +14,6 @@
 
 namespace Phossa2\Shared\Reference;
 
-use Phossa2\Shared\Message\Message;
-use Phossa2\Shared\Exception\RuntimeException;
-
 /**
  * ReferenceTrait
  *
@@ -52,7 +49,7 @@ trait ReferenceTrait
      * @var    string
      * @access protected
      */
-    protected $ref_pattern;
+    protected $ref_pattern = '~(\$\{((?:(?!\$\{|\}).)+?)\})~';
 
     /**
      * unresolved reference
@@ -104,10 +101,13 @@ trait ReferenceTrait
     public function deReference(/*# string */ $subject)
     {
         $matched = [];
+        $count = 0;
         while ($this->hasReference($subject, $matched)) {
             $val = $this->resolveReference($matched[2]);
-            if (is_string($val) && $val !== $subject) {
+            if (is_string($val) && ++$count < 15) {
                 $subject = str_replace($matched[1], $val, $subject);
+            } elseif ($count == 15) {
+                return $val;
             } else {
                 return $val;
             }
@@ -118,7 +118,7 @@ trait ReferenceTrait
     /**
      * {@inheritDoc}
      */
-    public function deReferenceArray(array &$dataArray)
+    public function deReferenceArray(&$dataArray)
     {
         if (!is_array($dataArray)) {
             return;

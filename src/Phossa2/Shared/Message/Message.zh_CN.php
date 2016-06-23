@@ -31,5 +31,6 @@ return [
     Message::MSG_PATH_NONREADABLE => '文件 "%s" 不可读',
     Message::MSG_PATH_NONWRITABLE => '文件 "%s" 不可写',
     Message::MSG_PATH_TYPE_UNKNOWN => '未知文件后缀 "%s"',
-    Message::MSG_REF_MALFORMED => '非正常变量 "%s"',
+    Message::MSG_REF_MALFORMED => '非正常替代变量 "%s"',
+    Message::MSG_REF_LOOP => '替代变量 "%s" 陷入死循环',
 ];

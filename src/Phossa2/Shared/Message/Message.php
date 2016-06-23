@@ -59,6 +59,11 @@ class Message extends MessageAbstract
      */
     const MSG_REF_MALFORMED = 1606161044;
 
+    /*
+     * Looped reference "%s" found
+     */
+    const MSG_REF_LOOP = 1606161045;
+
     /**
      * {@inheritDoc}
      */
@@ -70,5 +75,6 @@ class Message extends MessageAbstract
         self::MSG_PATH_NONWRITABLE => 'Path "%s" not writable',
         self::MSG_PATH_TYPE_UNKNOWN => 'Path type "%s" unknown',
         self::MSG_REF_MALFORMED => 'Malformed reference "%s" found',
+        self::MSG_REF_LOOP => 'Looped reference "%s" found',
     ];
 }

@@ -26,6 +26,7 @@ class ReferenceTraitTest extends \PHPUnit_Framework_TestCase
             'wow3'  => 'xxx',
             'xxx'   => '${yyy}',
             'yyy'   => 'b${xxx}',
+            'zzz'   => [1,2],
         ];
 
         require_once __DIR__ . '/Reference.php';
@@ -102,14 +103,42 @@ class ReferenceTraitTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * looped reference
+     *
      * @covers Phossa2\Shared\Reference\ReferenceTrait::deReference()
      * @expectedException Phossa2\Shared\Exception\RuntimeException
-     * @expectedExceptionCode Phossa2\Shared\Message\Message::MSG_REF_MALFORMED
+     * @expectedExceptionCode Phossa2\Shared\Message\Message::MSG_REF_LOOP
      */
     public function testDeReference2()
     {
         // loop found
         $str3 = '${xxx}ddd';
         $this->assertEquals('${yyy}', $this->object->deReference($str3));
+    }
+
+    /**
+     * Resolve to an array
+     *
+     * @covers Phossa2\Shared\Reference\ReferenceTrait::deReference()
+     */
+    public function testDeReference3()
+    {
+        // test reference
+        $str1 = '${zzz}';
+        $this->assertEquals([1,2], $this->object->deReference($str1));
+    }
+
+    /**
+     * Mix array in string
+     *
+     * @covers Phossa2\Shared\Reference\ReferenceTrait::deReference()
+     * @expectedException Phossa2\Shared\Exception\RuntimeException
+     * @expectedExceptionCode Phossa2\Shared\Message\Message::MSG_REF_MALFORMED
+     */
+    public function testDeReference4()
+    {
+        // test reference
+        $str1 = 'x${zzz}';
+        $this->assertEquals([1,2], $this->object->deReference($str1));
     }
 }

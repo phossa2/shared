@@ -98,7 +98,7 @@ trait ReferenceTrait
         $matched = [];
 
         while ($this->hasReference($subject, $matched)) {
-            // resolve the reference
+            // resolve the reference, checking loop also
             $val = $this->resolveReference($matched[2], $loop++);
 
             // resolved to another string
@@ -167,10 +167,10 @@ trait ReferenceTrait
     protected function resolveReference(/*# string */ $name, /*# int */ $loop)
     {
         // loop found
-        if ($loop > 10) {
+        if ($loop > 20) {
             throw new RuntimeException(
-                Message::get(Message::MSG_REF_MALFORMED, $name),
-                Message::MSG_REF_MALFORMED
+                Message::get(Message::MSG_REF_LOOP, $name),
+                Message::MSG_REF_LOOP
             );
         }
 

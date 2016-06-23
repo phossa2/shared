@@ -54,14 +54,6 @@ trait ReferenceTrait
     protected $ref_pattern = '~(\$\{((?:(?!\$\{|\}).)+?)\})~';
 
     /**
-     * unresolved reference
-     *
-     * @var    array
-     * @access protected
-     */
-    protected $unresolved = [];
-
-    /**
      * {@inheritDoc}
      */
     public function setReference(
@@ -102,14 +94,20 @@ trait ReferenceTrait
      */
     public function deReference(/*# string */ $subject)
     {
-        $matched = [];
         $loop = 0;
+        $matched = [];
+
         while ($this->hasReference($subject, $matched)) {
+            // resolve the reference
             $val = $this->resolveReference($matched[2], $loop++);
+
+            // resolved to another string
             if (is_string($val)) {
                 $subject = str_replace($matched[1], $val, $subject);
+
+            // resolved to array or object
             } else {
-                return $val;
+                return $this->checkValue($val, $subject, $matched[1]);
             }
         }
         return $subject;
@@ -133,6 +131,31 @@ trait ReferenceTrait
     }
 
     /**
+     * Check dereferenced value
+     *
+     * @param  mixed $value
+     * @param  string $subject
+     * @param  string $reference
+     * @return mixed
+     * @throws RuntimeException
+     * @access protected
+     */
+    protected function checkValue(
+        $value,
+        /*# string */ $subject,
+        /*# string */ $reference
+    ) {
+        // partial match
+        if ($subject != $reference) {
+            throw new RuntimeException(
+                Message::get(Message::MSG_REF_MALFORMED, $reference),
+                Message::MSG_REF_MALFORMED
+            );
+        }
+        return $value;
+    }
+
+    /**
      * Resolve the reference $name
      *
      * @param  string $name
@@ -143,11 +166,6 @@ trait ReferenceTrait
      */
     protected function resolveReference(/*# string */ $name, /*# int */ $loop)
     {
-        // unresolved found
-        if (isset($this->unresolved[$name])) {
-            return $this->unresolved[$name];
-        }
-
         // loop found
         if ($loop > 10) {
             throw new RuntimeException(
@@ -161,8 +179,7 @@ trait ReferenceTrait
 
         // not found
         if (is_null($val)) {
-            $this->unresolved[$name] = $this->resolveUnknown($name);
-            return $this->unresolved[$name];
+            return $this->resolveUnknown($name);
 
         // found it
         } else {

@@ -14,6 +14,8 @@
 
 namespace Phossa2\Shared\Reference;
 
+use Phossa2\Shared\Exception\RuntimeException;
+use Phossa2\Shared\Message\Message;
 /**
  * ReferenceTrait
  *
@@ -101,13 +103,11 @@ trait ReferenceTrait
     public function deReference(/*# string */ $subject)
     {
         $matched = [];
-        $count = 0;
+        $loop = 0;
         while ($this->hasReference($subject, $matched)) {
-            $val = $this->resolveReference($matched[2]);
-            if (is_string($val) && ++$count < 15) {
+            $val = $this->resolveReference($matched[2], $loop++);
+            if (is_string($val)) {
                 $subject = str_replace($matched[1], $val, $subject);
-            } elseif ($count == 15) {
-                return $val;
             } else {
                 return $val;
             }
@@ -136,14 +136,24 @@ trait ReferenceTrait
      * Resolve the reference $name
      *
      * @param  string $name
+     * @param  int $loop
      * @return mixed
+     * @throws RuntimeException if loop found
      * @access protected
      */
-    protected function resolveReference(/*# string */ $name)
+    protected function resolveReference(/*# string */ $name, /*# int */ $loop)
     {
         // unresolved found
         if (isset($this->unresolved[$name])) {
             return $this->unresolved[$name];
+        }
+
+        // loop found
+        if ($loop > 10) {
+            throw new RuntimeException(
+                Message::get(Message::MSG_REF_MALFORMED, $name),
+                Message::MSG_REF_MALFORMED
+            );
         }
 
         // get the referenced value

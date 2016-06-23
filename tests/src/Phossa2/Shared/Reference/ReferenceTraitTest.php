@@ -90,7 +90,7 @@ class ReferenceTraitTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers Phossa2\Shared\Reference\ReferenceTrait::deReference()
      */
-    public function testDeReference()
+    public function testDeReference1()
     {
         // test reference
         $str1 = 'xx${wow3}';
@@ -99,7 +99,15 @@ class ReferenceTraitTest extends \PHPUnit_Framework_TestCase
         // recursive deref
         $str2 = 'xx${test1}';
         $this->assertEquals('xxYxxx', $this->object->deReference($str2));
+    }
 
+    /**
+     * @covers Phossa2\Shared\Reference\ReferenceTrait::deReference()
+     * @expectedException Phossa2\Shared\Exception\RuntimeException
+     * @expectedExceptionCode Phossa2\Shared\Message\Message::MSG_REF_MALFORMED
+     */
+    public function testDeReference2()
+    {
         // loop found
         $str3 = '${xxx}ddd';
         $this->assertEquals('${yyy}', $this->object->deReference($str3));

@@ -28,7 +28,7 @@ class ReferenceTraitTest extends \PHPUnit_Framework_TestCase
             'yyy'   => 'b${xxx}',
         ];
 
-        require_once __DIR__ . './Reference.php';
+        require_once __DIR__ . '/Reference.php';
 
         $this->object = new Reference($data);
     }

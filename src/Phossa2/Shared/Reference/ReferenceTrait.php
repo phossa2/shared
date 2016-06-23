@@ -105,20 +105,11 @@ trait ReferenceTrait
     {
         $matched = [];
         while ($this->hasReference($subject, $matched)) {
-
             $val = $this->resolveReference($matched[2]);
-
-            // loop found
-            if ($val == $subject) {
-                echo "loop found";
-
-            // full match
-            } elseif ($matched[1] === $subject) {
-                return $val;
-
-            // partial matched
-            } elseif (is_string($val)) {
+            if (is_string($val) && $val !== $subject) {
                 $subject = str_replace($matched[1], $val, $subject);
+            } else {
+                return $val;
             }
         }
         return $subject;

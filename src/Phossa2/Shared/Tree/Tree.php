@@ -56,7 +56,7 @@ class Tree extends ObjectAbstract implements TreeInterface
     public function __construct(array $data = [], /*# string */ $splitter = '.')
     {
         $this->splitter = $splitter;
-        $this->tree = $this->fixTree($data);
+        $this->tree = empty($data) ? $data : $this->fixTree($data);
     }
 
     /**
@@ -141,7 +141,11 @@ class Tree extends ObjectAbstract implements TreeInterface
         $result = [];
         foreach ($data as $k => $v) {
             $res = &$this->searchNode($k, $result);
-            $res = is_array($v) ? $this->fixTree($v) : $v;
+            if (is_array($v)) {
+                $res = array_replace_recursive($res, $this->fixTree($v));
+            } else {
+                $res = $v;
+            }
         }
         return $result;
     }

@@ -97,7 +97,7 @@ class Tree extends ObjectAbstract implements TreeInterface
      */
     public function addNode(/*# string */ $nodeName, $data)
     {
-        $node = &$this->searchNode($nodeName, $this->tree, true);
+        $node = &$this->searchNode($nodeName, $this->tree);
         $node = is_array($data) ? $this->fixTree($data) : $data;
         return $this;
     }
@@ -149,51 +149,51 @@ class Tree extends ObjectAbstract implements TreeInterface
     /**
      * Search a node in the $data
      *
-     * @param  mixed $key
-     * @param  mixed &$data
+     * @param  string $path
+     * @param  array &$data
      * @param  bool $create
+     * @return mixed null for not found
      * @access protected
      * @since  2.0.6 bug fix
      */
-    protected function &searchNode($key, &$data, /*# bool */ $create = true)
-    {
-        $null = null;
-        if (!is_string($key)) {
-            return $data;
-        } elseif (!is_array($data)) {
-            return $null;
-        }
-
-        // keys
-        $parts = explode($this->splitter, $key, 2);
-        $first = $parts[0];
-        $other = isset($parts[1]) ? $parts[1] : false;
-
-        if (isset($data[$first])) {
-            return $this->searchNode($other, $data[$first], $create);
-        } elseif ($create) {
-            $data[$first] = [];
-            return $this->searchNode($other, $data[$first], $create);
-        } else {
-            return $null;
-        }
-        /*
-
+    protected function &searchNode(
+        /*# string */ $path,
+        array &$data,
+        /*# bool */ $create = true
+    ) {
         $found = &$data;
-        $null  = null;
-        foreach (explode($this->splitter, $key) as $k) {
-            if (!is_array($found)) {
-                return $null;
-            } elseif (isset($found[$k])) {
-                $found = &$found[$k];
-            } elseif ($create) {
-                $found[$k] = [];
-                $found = &$found[$k];
-            } else {
-                return $null;
+        foreach (explode($this->splitter, $path) as $k) {
+            $found = &$this->childNode($k, $found, $create);
+            if (null === $found) {
+                break;
             }
         }
         return $found;
-        */
+    }
+
+    /**
+     * get or create the next/child node, return NULL if not found
+     *
+     * @param  string $key
+     * @param  mixed $data
+     * @param  bool $create create the node if not exist
+     * @return mixed
+     * @access protected
+     */
+    protected function &childNode(
+        /*# string */ $key,
+        &$data,
+        /*# bool */ $create
+    ) {
+        $null = null;
+        if (is_array($data)) {
+            if (isset($data[$key])) {
+                return $data[$key];
+            } elseif ($create) {
+                $data[$key] = [];
+                return $data[$key];
+            }
+        }
+        return $null;
     }
 }

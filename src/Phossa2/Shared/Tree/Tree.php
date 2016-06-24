@@ -98,7 +98,7 @@ class Tree extends ObjectAbstract implements TreeInterface
     public function addNode(/*# string */ $nodeName, $data)
     {
         $node = &$this->searchNode($nodeName, $this->tree, true);
-        $node = $this->fixTree($data);
+        $node = is_array($data) ? $this->fixTree($data) : $data;
         return $this;
     }
 
@@ -149,29 +149,51 @@ class Tree extends ObjectAbstract implements TreeInterface
     /**
      * Search a node in the $data
      *
-     * @param  string $key
-     * @param  array &$data
+     * @param  mixed $key
+     * @param  mixed &$data
      * @param  bool $create
      * @access protected
      * @since  2.0.6 bug fix
      */
-    protected function &searchNode(
-        /*# string */ $key,
-        array &$data,
-        /*# bool */ $create = true
-    ) {
+    protected function &searchNode($key, &$data, /*# bool */ $create = true)
+    {
+        $null = null;
+        if (!is_string($key)) {
+            return $data;
+        } elseif (!is_array($data)) {
+            return $null;
+        }
+
+        // keys
+        $parts = explode($this->splitter, $key, 2);
+        $first = $parts[0];
+        $other = isset($parts[1]) ? $parts[1] : false;
+
+        if (isset($data[$first])) {
+            return $this->searchNode($other, $data[$first], $create);
+        } elseif ($create) {
+            $data[$first] = [];
+            return $this->searchNode($other, $data[$first], $create);
+        } else {
+            return $null;
+        }
+        /*
+
         $found = &$data;
+        $null  = null;
         foreach (explode($this->splitter, $key) as $k) {
-            if (is_array($found) && isset($found[$k])) {
+            if (!is_array($found)) {
+                return $null;
+            } elseif (isset($found[$k])) {
                 $found = &$found[$k];
-            } elseif (is_array($found) && $create) {
+            } elseif ($create) {
                 $found[$k] = [];
                 $found = &$found[$k];
             } else {
-                $val = null;
-                return $val;
+                return $null;
             }
         }
         return $found;
+        */
     }
 }

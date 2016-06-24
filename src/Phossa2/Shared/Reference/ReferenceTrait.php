@@ -153,9 +153,9 @@ trait ReferenceTrait
      * @param  string $reference
      * @return mixed
      * @throws RuntimeException if $subject malformed, like mix string & array
-     * @access protected
+     * @access private
      */
-    protected function checkValue(
+    private function checkValue(
         $value,
         /*# string */ $subject,
         /*# string */ $reference
@@ -184,10 +184,10 @@ trait ReferenceTrait
      * @param  string $name
      * @return mixed
      * @throws RuntimeException if reference unknown
-     * @access protected
+     * @access private
      * @since  2.0.6 added cache support
      */
-    protected function resolveReference(/*# string */ $name)
+    private function resolveReference(/*# string */ $name)
     {
         try {
             // try reference cache first
@@ -219,9 +219,10 @@ trait ReferenceTrait
      * @param  int $loop loop counter
      * @param  string $name reference name
      * @throws RuntimeException if loop found
-     * @access public
+     * @access private
+     * @since  2.0.6
      */
-    protected function checkReferenceLoop(
+    private function checkReferenceLoop(
         /*# int */ $loop,
         /*# string */ $name
     ) {

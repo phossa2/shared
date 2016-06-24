@@ -21,11 +21,13 @@ use Phossa2\Shared\Base\ObjectAbstract;
  *
  * @package Phossa2\Shared
  * @author  Hong Zhang <phossa@126.com>
+ * @see     ObjectAbstract
+ * @see     TreeInterface
  * @version 2.0.3
  * @since   2.0.3 added
- * @since   2.0.5 added deleteNode()
+ * @since   2.0.5 added deleteNode(), using TreeInterface
  */
-class Tree extends ObjectAbstract
+class Tree extends ObjectAbstract implements TreeInterface
 {
     /**
      * node splitter
@@ -58,11 +60,7 @@ class Tree extends ObjectAbstract
     }
 
     /**
-     * return the whole tree
-     *
-     * @return array
-     * @access public
-     * @api
+     * {@inheritDoc}
      */
     public function getTree()/*# : array */
     {
@@ -70,12 +68,7 @@ class Tree extends ObjectAbstract
     }
 
     /**
-     * Get one node, NULL if not found
-     *
-     * @param  string $nodeName
-     * @return mixed
-     * @access public
-     * @api
+     * {@inheritDoc}
      */
     public function &getNode(/*# string */ $nodeName)
     {
@@ -88,12 +81,7 @@ class Tree extends ObjectAbstract
     }
 
     /**
-     * Has node in tree or not
-     *
-     * @param  string $nodeName
-     * @return bool
-     * @access public
-     * @api
+     * {@inheritDoc}
      */
     public function hasNode(/*# string */ $nodeName)/*# : bool */
     {
@@ -105,13 +93,7 @@ class Tree extends ObjectAbstract
     }
 
     /**
-     * Add one node
-     *
-     * @param  string $nodeName
-     * @param  mixed $data
-     * @return $this
-     * @access public
-     * @api
+     * {@inheritDoc}
      */
     public function addNode(/*# string */ $nodeName, $data)
     {
@@ -121,13 +103,7 @@ class Tree extends ObjectAbstract
     }
 
     /**
-     * Delete one node if exists
-     *
-     * @param  string $nodeName
-     * @return $this
-     * @access public
-     * @since  2.0.5
-     * @api
+     * {@inheritDoc}
      */
     public function deleteNode(/*# string */ $nodeName)
     {
@@ -143,6 +119,14 @@ class Tree extends ObjectAbstract
             }
         }
         return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDelimiter()/*# : string */
+    {
+        return $this->splitter;
     }
 
     /**

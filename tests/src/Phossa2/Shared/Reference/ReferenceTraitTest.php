@@ -141,4 +141,29 @@ class ReferenceTraitTest extends \PHPUnit_Framework_TestCase
         $str1 = 'x${zzz}';
         $this->assertEquals([1,2], $this->object->deReference($str1));
     }
+
+    /**
+     * Dereference an array
+     *
+     * @covers Phossa2\Shared\Reference\ReferenceTrait::deReferenceArray()
+     */
+    public function testDeReferenceArray()
+    {
+        // string also works
+        $str1 = '${zzz}';
+        $this->object->deReferenceArray($str1);
+        $this->assertEquals([1,2], $str1);
+
+        // deref an array
+        $arr1 = [
+            '${zzz}',
+            'a' => ['${test1}']
+        ];
+        $this->object->deReferenceArray($arr1);
+
+        $this->assertEquals([
+            [1,2],
+            'a' => ['Yxxx']],
+        $arr1);
+    }
 }

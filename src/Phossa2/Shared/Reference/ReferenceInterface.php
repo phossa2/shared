@@ -68,7 +68,7 @@ interface ReferenceInterface
     public function deReference(/*# string */ $subject);
 
     /**
-     * Derefence all references in an array
+     * Derefence all references in an array|string etc.
      *
      * @param  mixed &$dataArray skip if not array
      * @throws RuntimeException if malformed reference found

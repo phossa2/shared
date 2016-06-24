@@ -118,14 +118,15 @@ trait ReferenceTrait
      */
     public function deReferenceArray(&$dataArray)
     {
+        if (is_string($dataArray)) {
+            $dataArray = $this->deReference($dataArray);
+        }
+
         if (!is_array($dataArray)) {
             return;
         }
 
         foreach ($dataArray as &$data) {
-            if (is_string($data)) {
-                $data = $this->deReference($data);
-            }
             $this->dereferenceArray($data);
         }
     }

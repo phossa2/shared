@@ -189,28 +189,23 @@ trait ReferenceTrait
      */
     private function resolveReference(/*# string */ $name)
     {
-        try {
-            // try reference cache first
-            if (isset($this->ref_cache[$name])) {
-                return $this->ref_cache[$name];
-            }
-
-            // get referenced value
-            $val = $this->getReference($name);
-
-            // unknown ref found
-            if (is_null($val)) {
-                $val = $this->resolveUnknown($name);
-            }
-
-            // cache deref result
-            $this->ref_cache[$name] = $val;
-
-            return $val;
-
-        } catch (\Exception $e) {
-            throw new RuntimeException($e->getMessage(), $e->getCode());
+        // try reference cache first
+        if (isset($this->ref_cache[$name])) {
+            return $this->ref_cache[$name];
         }
+
+        // get referenced value
+        $val = $this->getReference($name);
+
+        // unknown ref found
+        if (is_null($val)) {
+            $val = $this->resolveUnknown($name);
+        }
+
+        // cache deref result
+        $this->ref_cache[$name] = $val;
+
+        return $val;
     }
 
     /**

@@ -23,7 +23,7 @@ use Phossa2\Shared\Base\ObjectAbstract;
  * @author  Hong Zhang <phossa@126.com>
  * @see     ObjectAbstract
  * @see     TreeInterface
- * @version 2.0.3
+ * @version 2.0.6
  * @since   2.0.3 added
  * @since   2.0.5 added deleteNode(), using TreeInterface
  */
@@ -153,6 +153,7 @@ class Tree extends ObjectAbstract implements TreeInterface
      * @param  array &$data
      * @param  bool $create
      * @access protected
+     * @since  2.0.6 bug fix
      */
     protected function &searchNode(
         /*# string */ $key,
@@ -161,14 +162,14 @@ class Tree extends ObjectAbstract implements TreeInterface
     ) {
         $found = &$data;
         foreach (explode($this->splitter, $key) as $k) {
-            if (isset($found[$k])) {
+            if (is_array($found) && isset($found[$k])) {
                 $found = &$found[$k];
-            } elseif ($create) {
+            } elseif (is_array($found) && $create) {
                 $found[$k] = [];
                 $found = &$found[$k];
             } else {
-                $found = null;
-                break;
+                $val = null;
+                return $val;
             }
         }
         return $found;

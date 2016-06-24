@@ -61,7 +61,7 @@ interface ReferenceInterface
      *
      * @param  string $subject
      * @return mixed
-     * @throws RuntimeException if malformed reference found
+     * @throws RuntimeException if malformed unknown reference found
      * @access public
      * @api
      */
@@ -71,7 +71,7 @@ interface ReferenceInterface
      * Derefence all references in an array|string etc.
      *
      * @param  mixed &$dataArray skip if not array
-     * @throws RuntimeException if malformed reference found
+     * @throws RuntimeException if malformed or unknown reference found
      * @access public
      * @api
      */

@@ -105,7 +105,7 @@ trait ReferenceTrait
             if (is_string($val)) {
                 $subject = str_replace($matched[1], $val, $subject);
 
-            // resolved to array or object
+            // resolved to array, object, null etc.
             } else {
                 return $this->checkValue($val, $subject, $matched[1]);
             }
@@ -138,7 +138,7 @@ trait ReferenceTrait
      * @param  string $subject
      * @param  string $reference
      * @return mixed
-     * @throws RuntimeException
+     * @throws RuntimeException if $subject malformed, like mix string & array
      * @access protected
      */
     protected function checkValue(
@@ -146,14 +146,22 @@ trait ReferenceTrait
         /*# string */ $subject,
         /*# string */ $reference
     ) {
-        // partial match
-        if ($subject != $reference) {
+        // unknown reference found, leave it alone
+        if (is_null($value)) {
+            // exception thrown in resolveUnknown() already if wanted to
+            return $subject;
+
+        // malformed partial match
+        } elseif ($subject != $reference) {
             throw new RuntimeException(
                 Message::get(Message::MSG_REF_MALFORMED, $reference),
                 Message::MSG_REF_MALFORMED
             );
+
+        // full match, array or object
+        } else {
+            return $value;
         }
-        return $value;
     }
 
     /**
@@ -162,37 +170,35 @@ trait ReferenceTrait
      * @param  string $name
      * @param  int $loop
      * @return mixed
-     * @throws RuntimeException if loop found
+     * @throws RuntimeException if loop found or reference unknown
      * @access protected
      */
     protected function resolveReference(/*# string */ $name, /*# int */ $loop)
     {
-        // loop found
-        if ($loop > 20) {
-            throw new RuntimeException(
-                Message::get(Message::MSG_REF_LOOP, $name),
-                Message::MSG_REF_LOOP
-            );
-        }
+        try {
+            // loop found
+            if ($loop > 20) {
+                throw new RuntimeException(
+                    Message::get(Message::MSG_REF_LOOP, $name),
+                    Message::MSG_REF_LOOP
+                );
+            }
 
-        // get the referenced value
-        $val = $this->getReference($name);
+            $val = $this->getReference($name);
 
-        // not found
-        if (is_null($val)) {
-            return $this->resolveUnknown($name);
+            return is_null($val) ? $this->resolveUnknown($name) : $val;
 
-        // found it
-        } else {
-            return $val;
+        } catch (\Exception $e) {
+            throw new RuntimeException($e->getMessage(), $e->getCode());
         }
     }
 
     /**
-     * For unknown reference $name
+     * For unknown reference $name, normally returns NULL
      *
      * @param  string $name
      * @return mixed
+     * @throws \Exception if implementor WANTS TO !!
      * @access protected
      */
     abstract protected function resolveUnknown(/*# string */ $name);

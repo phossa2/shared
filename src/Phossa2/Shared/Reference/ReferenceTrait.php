@@ -226,7 +226,7 @@ trait ReferenceTrait
      * @access protected
      * @since  2.0.6 added
      */
-    protected function clearCache()
+    protected function clearReferenceCache()
     {
         $this->ref_cache = [];
         return $this;

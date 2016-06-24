@@ -14,8 +14,9 @@
 
 namespace Phossa2\Shared\Reference;
 
-use Phossa2\Shared\Exception\RuntimeException;
 use Phossa2\Shared\Message\Message;
+use Phossa2\Shared\Exception\RuntimeException;
+
 /**
  * ReferenceTrait
  *
@@ -26,6 +27,7 @@ use Phossa2\Shared\Message\Message;
  * @see     ReferenceInterface
  * @version 2.0.4
  * @since   2.0.4 added
+ * @since   2.0.6 added reference cache support
  */
 trait ReferenceTrait
 {
@@ -52,6 +54,15 @@ trait ReferenceTrait
      * @access protected
      */
     protected $ref_pattern = '~(\$\{((?:(?!\$\{|\}).)+?)\})~';
+
+    /**
+     * cached references
+     *
+     * @var    array
+     * @access protected
+     * @since  2.0.6
+     */
+    protected $ref_cache = [];
 
     /**
      * {@inheritDoc}
@@ -172,6 +183,7 @@ trait ReferenceTrait
      * @return mixed
      * @throws RuntimeException if loop found or reference unknown
      * @access protected
+     * @since  2.0.6 added cache support
      */
     protected function resolveReference(/*# string */ $name, /*# int */ $loop)
     {
@@ -184,13 +196,40 @@ trait ReferenceTrait
                 );
             }
 
+            // try reference cache first
+            if (isset($this->ref_cache[$name])) {
+                return $this->ref_cache[$name];
+            }
+
+            // get referenced value
             $val = $this->getReference($name);
 
-            return is_null($val) ? $this->resolveUnknown($name) : $val;
+            // unknown ref found
+            if (is_null($val)) {
+                $val = $this->resolveUnknown($name);
+            }
+
+            // cache deref result
+            $this->ref_cache[$name] = $val;
+
+            return $val;
 
         } catch (\Exception $e) {
             throw new RuntimeException($e->getMessage(), $e->getCode());
         }
+    }
+
+    /**
+     * Clear reference cache
+     *
+     * @return $this
+     * @access protected
+     * @since  2.0.6 added
+     */
+    protected function clearCache()
+    {
+        $this->ref_cache = [];
+        return $this;
     }
 
     /**

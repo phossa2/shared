@@ -109,8 +109,11 @@ trait ReferenceTrait
         $matched = [];
 
         while ($this->hasReference($subject, $matched)) {
-            // resolve the reference, checking loop also
-            $val = $this->resolveReference($matched[2], $loop++);
+            // check loop
+            $this->checkReferenceLoop($loop++, $matched[2]);
+
+            // resolve the reference
+            $val = $this->resolveReference($matched[2]);
 
             // resolved to another string
             if (is_string($val)) {
@@ -179,23 +182,14 @@ trait ReferenceTrait
      * Resolve the reference $name
      *
      * @param  string $name
-     * @param  int $loop
      * @return mixed
-     * @throws RuntimeException if loop found or reference unknown
+     * @throws RuntimeException if reference unknown
      * @access protected
      * @since  2.0.6 added cache support
      */
-    protected function resolveReference(/*# string */ $name, /*# int */ $loop)
+    protected function resolveReference(/*# string */ $name)
     {
         try {
-            // loop found
-            if ($loop > 20) {
-                throw new RuntimeException(
-                    Message::get(Message::MSG_REF_LOOP, $name),
-                    Message::MSG_REF_LOOP
-                );
-            }
-
             // try reference cache first
             if (isset($this->ref_cache[$name])) {
                 return $this->ref_cache[$name];
@@ -216,6 +210,26 @@ trait ReferenceTrait
 
         } catch (\Exception $e) {
             throw new RuntimeException($e->getMessage(), $e->getCode());
+        }
+    }
+
+    /**
+     * Throw exception if looped
+     *
+     * @param  int $loop loop counter
+     * @param  string $name reference name
+     * @throws RuntimeException if loop found
+     * @access public
+     */
+    protected function checkReferenceLoop(
+        /*# int */ $loop,
+        /*# string */ $name
+    ) {
+        if ($loop > 20) {
+            throw new RuntimeException(
+                Message::get(Message::MSG_REF_LOOP, $name),
+                Message::MSG_REF_LOOP
+            );
         }
     }
 

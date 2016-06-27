@@ -15,6 +15,7 @@
 namespace Phossa2\Shared\Reference;
 
 use Phossa2\Shared\Message\Message;
+use Phossa2\Shared\Cache\LocalCacheTrait;
 use Phossa2\Shared\Exception\RuntimeException;
 
 /**
@@ -25,63 +26,57 @@ use Phossa2\Shared\Exception\RuntimeException;
  * @package Phossa2\Shared
  * @author  Hong Zhang <phossa@126.com>
  * @see     ReferenceInterface
- * @version 2.0.4
+ * @version 2.0.8
  * @since   2.0.4 added
  * @since   2.0.6 added reference cache support
+ * @since   2.0.8 added delegator support, changed to LocaclCache
  */
 trait ReferenceTrait
 {
+    use LocalCacheTrait;
+
     /**
      * refernece start chars
      *
      * @var    string
-     * @access protected
+     * @access private
      */
-    protected $ref_start = '${';
+    private $ref_start = '${';
 
     /**
      * reference ending chars
      *
      * @var    string
-     * @access protected
+     * @access private
      */
-    protected $ref_end = '}';
+    private $ref_end = '}';
 
     /**
      * cached pattern to match
      *
      * @var    string
-     * @access protected
+     * @access private
      */
-    protected $ref_pattern = '~(\$\{((?:(?!\$\{|\}).)+?)\})~';
-
-    /**
-     * cached references
-     *
-     * @var    array
-     * @access protected
-     * @since  2.0.6
-     */
-    protected $ref_cache = [];
+    private $ref_pattern = '~(\$\{((?:(?!\$\{|\}).)+?)\})~';
 
     /**
      * {@inheritDoc}
      */
-    public function setReference(
+    public function setReferencePattern(
         /*# string */ $start,
         /*# string */ $end
     ) {
         $this->ref_start = $start;
         $this->ref_end = $end;
 
-        // build pattern
+        // build pattern on the fly
         $s = preg_quote($start);
         $e = preg_quote($end);
         $this->ref_pattern = sprintf(
             "~(%s((?:(?!%s|%s).)+?)%s)~", $s, $s, $e, $e
         );
 
-        return $this;
+        return $this->clearLocalCache();
     }
 
     /**
@@ -108,18 +103,19 @@ trait ReferenceTrait
         $loop = 0;
         $matched = [];
 
+        // recursively dereference in the string $subject
         while ($this->hasReference($subject, $matched)) {
-            // check loop
+            // avoid looping
             $this->checkReferenceLoop($loop++, $matched[2]);
 
-            // resolve the reference
+            // resolve the reference to a value
             $val = $this->resolveReference($matched[2]);
 
-            // resolved to another string
+            // value is another string
             if (is_string($val)) {
                 $subject = str_replace($matched[1], $val, $subject);
 
-            // resolved to array, object, null etc.
+            // value is an array, object, null etc.
             } else {
                 return $this->checkValue($val, $subject, $matched[1]);
             }
@@ -149,8 +145,8 @@ trait ReferenceTrait
      * Check dereferenced value
      *
      * @param  mixed $value
-     * @param  string $subject
-     * @param  string $reference
+     * @param  string $subject the subject to dereference
+     * @param  string $reference the matched whole reference
      * @return mixed
      * @throws RuntimeException if $subject malformed, like mix string & array
      * @access private
@@ -165,7 +161,7 @@ trait ReferenceTrait
             // exception thrown in resolveUnknown() already if wanted to
             return $subject;
 
-        // malformed partial match
+        // malformed partial match, partial string, partial non-scalar
         } elseif ($subject != $reference) {
             throw new RuntimeException(
                 Message::get(Message::MSG_REF_MALFORMED, $reference),
@@ -186,24 +182,25 @@ trait ReferenceTrait
      * @throws RuntimeException if reference unknown
      * @access private
      * @since  2.0.6 added cache support
+     * @since  2.0.8 added delegatorAware support
      */
     private function resolveReference(/*# string */ $name)
     {
         // try reference cache first
-        if (isset($this->ref_cache[$name])) {
-            return $this->ref_cache[$name];
+        if ($this->hasLocalCache($name)) {
+            return $this->getLocalCache($name);
         }
 
-        // get referenced value
-        $val = $this->getReference($name);
+        // lookup the reference
+        $val = $this->referenceLookup($name);
 
-        // unknown ref found
+        // dealing with unknown reference
         if (is_null($val)) {
             $val = $this->resolveUnknown($name);
         }
 
         // cache deref result
-        $this->ref_cache[$name] = $val;
+        $this->setLocalCache($name, $val);
 
         return $val;
     }
@@ -230,16 +227,33 @@ trait ReferenceTrait
     }
 
     /**
-     * Clear reference cache
+     * Lookup reference with delegator or self
      *
-     * @return $this
-     * @access protected
-     * @since  2.0.6 added
+     * @param  string $name
+     * @return mixed
+     * @access private
      */
-    protected function clearReferenceCache()
+    private function referenceLookup(/*# string */ $name)
     {
-        $this->ref_cache = [];
-        return $this;
+        // try delegator
+        if ($this instanceof DelegatorAwareInterface &&
+            $this->hasDelegator()
+        ) {
+            /* @var $delegator DelegatorInterface */
+            $delegator = $this->getDelegator();
+
+            if ($delegator->hasInLookup($name)) {
+                $val = $delegator->getFromLookup($name);
+            } else {
+                $val = null;
+            }
+
+        // try self
+        } else {
+            $val = $this->getReference($name);
+        }
+
+        return $val;
     }
 
     /**
@@ -253,7 +267,7 @@ trait ReferenceTrait
     abstract protected function resolveUnknown(/*# string */ $name);
 
     /**
-     * The real resolving method. return NULL for unknown reference
+     * The REAL resolving method. return NULL for unknown reference
      *
      * @param  string $name
      * @return mixed

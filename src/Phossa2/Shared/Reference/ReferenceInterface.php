@@ -29,7 +29,13 @@ use Phossa2\Shared\Exception\RuntimeException;
 interface ReferenceInterface
 {
     /**
-     * Set open/close chars such as '${' and '}'
+     * Set open/closing chars for reference pattern, such as '${' and '}'
+     *
+     * e.g.
+     * ```php
+     * // reset reference pattern, starts with '%{' and ends with '%}
+     * $this->setReference('%{', '%}');
+     * ```
      *
      * @param  string $start start chars
      * @param  string $end ending chars
@@ -37,13 +43,25 @@ interface ReferenceInterface
      * @access public
      * @api
      */
-    public function setReference(
+    public function setReferencePattern(
         /*# string */ $start,
         /*# string */ $end
     );
 
     /**
-     * Has reference in $subject ? matched result in $matched
+     * Has reference in string $subject ? matched result in $matched
+     *
+     * e.g.
+     * ```php
+     * $str = 'has %{reference_name%} in this string';
+     * $matched = [];
+     * if ($this->hasReference($str, $matched)) {
+     *     // $matched[0]: %{reference_name%}
+     *     // $matched[1]: %{reference_name%}
+     *     // $matched[2]: reference_name
+     *     // ...
+     * }
+     * ```
      *
      * @param  string $subject
      * @param  array $matched
@@ -57,7 +75,7 @@ interface ReferenceInterface
     )/*# : bool */;
 
     /**
-     * Replace references in the target string (recursively)
+     * Replace all references in the target string (recursively)
      *
      * @param  string $subject
      * @return mixed

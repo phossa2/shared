@@ -1,0 +1,57 @@
+<?php
+/**
+ * Phossa Project
+ *
+ * PHP version 5.4
+ *
+ * @category  Library
+ * @package   Phossa2\Shared
+ * @copyright Copyright (c) 2016 phossa.com
+ * @license   http://mit-license.org/ MIT License
+ * @link      http://www.phossa.com/
+ */
+/*# declare(strict_types=1); */
+
+namespace Phossa2\Shared\Reference;
+
+use Phossa2\Shared\Exception\NotFoundException;
+
+/**
+ * DelegatorAwareInterface
+ *
+ * @package Phossa2\Shared
+ * @author  Hong Zhang <phossa@126.com>
+ * @version 2.0.8
+ * @since   2.0.8 added
+ */
+interface DelegatorAwareInterface
+{
+    /**
+     * Set the delegator
+     *
+     * @param  DelegatorInterface $delegator
+     * @return $this
+     * @access public
+     * @api
+     */
+    public function setDelegator(DelegatorInterface $delegator);
+
+    /**
+     * Has delegator set ?
+     *
+     * @return bool
+     * @access public
+     * @api
+     */
+    public function hasDelegator()/*# : bool */;
+
+    /**
+     * Try get the delegator
+     *
+     * @return DelegatorInterface
+     * @throws NotFoundException if delegator not found
+     * @access public
+     * @api
+     */
+    public function getDelegator()/*# : DelegatorInterface */;
+}

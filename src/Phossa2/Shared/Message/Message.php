@@ -19,7 +19,7 @@ namespace Phossa2\Shared\Message;
  *
  * @package Phossa2\Shared
  * @author  Hong Zhang <phossa@126.com>
- * @version 2.0.4
+ * @version 2.0.8
  * @since   2.0.0 added
  */
 class Message extends MessageAbstract
@@ -64,6 +64,17 @@ class Message extends MessageAbstract
      */
     const MSG_REF_LOOP = 1606161045;
 
+    /*
+     * Reference "%s" unknown
+     */
+    const MSG_REF_UNKNOWN = 1606161046;
+
+
+    /*
+     * Delegator not found for "%s"
+     */
+    const MSG_DELEGATOR_UNKNOWN = 1606161047;
+
     /**
      * {@inheritDoc}
      */
@@ -76,5 +87,7 @@ class Message extends MessageAbstract
         self::MSG_PATH_TYPE_UNKNOWN => 'Path type "%s" unknown',
         self::MSG_REF_MALFORMED => 'Malformed reference "%s" found',
         self::MSG_REF_LOOP => 'Looped reference "%s" found',
+        self::MSG_REF_UNKNOWN => 'Reference "%s" unknown',
+        self::MSG_DELEGATOR_UNKNOWN => 'Delegator not found for "%s"',
     ];
 }

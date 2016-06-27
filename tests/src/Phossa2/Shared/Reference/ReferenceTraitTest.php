@@ -71,12 +71,12 @@ class ReferenceTraitTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Phossa2\Shared\Reference\ReferenceTrait::setReference()
+     * @covers Phossa2\Shared\Reference\ReferenceTrait::setReferencePattern()
      */
-    public function testSetReference()
+    public function testSetReferencePattern()
     {
         $matched = [];
-        $this->object->setReference('{{', '}}');
+        $this->object->setReferencePattern('{{', '}}');
 
         // no ref
         $str1 = 'xx${xy}';

@@ -222,7 +222,7 @@ trait ReferenceTrait
     }
 
     /**
-     * Lookup reference with delegator
+     * Lookup reference with delegator or self
      *
      * @param  string $name
      * @return mixed
@@ -233,9 +233,7 @@ trait ReferenceTrait
         if ($this instanceof DelegatorAwareInterface &&
             $this->hasDelegator()
         ) {
-            /* @var $delegator DelegatorInterface */
-            $delegator = $this->getDelegator();
-            $val = $delegator->getFromLookup($name);
+            $val = $this->getDelegator()->getFromLookup($name);
         } else {
             $val = $this->getReference($name);
         }

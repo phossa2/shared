@@ -57,23 +57,27 @@ class Message extends MessageAbstract
     /*
      * Malformed reference "%s" found
      */
-    const MSG_REF_MALFORMED = 1606161044;
+    const MSG_REF_MALFORMED = 1606161050;
 
     /*
      * Looped reference "%s" found
      */
-    const MSG_REF_LOOP = 1606161045;
+    const MSG_REF_LOOP = 1606161051;
 
     /*
      * Reference "%s" unknown
      */
-    const MSG_REF_UNKNOWN = 1606161046;
-
+    const MSG_REF_UNKNOWN = 1606161052;
 
     /*
      * Delegator not found for "%s"
      */
-    const MSG_DELEGATOR_UNKNOWN = 1606161047;
+    const MSG_DELEGATOR_UNKNOWN = 1606161060;
+
+    /*
+     * Invalid argument "%s", expecting "%s"
+     */
+    const MSG_ARGUMENT_INVALID = 1606161070;
 
     /**
      * {@inheritDoc}
@@ -89,5 +93,6 @@ class Message extends MessageAbstract
         self::MSG_REF_LOOP => 'Looped reference "%s" found',
         self::MSG_REF_UNKNOWN => 'Reference "%s" unknown',
         self::MSG_DELEGATOR_UNKNOWN => 'Delegator not found for "%s"',
+        self::MSG_ARGUMENT_INVALID => 'Invalid argument "%s", expecting "%s"',
     ];
 }

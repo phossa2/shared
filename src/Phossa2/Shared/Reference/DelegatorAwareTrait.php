@@ -44,7 +44,7 @@ trait DelegatorAwareTrait
     public function setDelegator(DelegatorInterface $delegator)
     {
         $this->delegator = $delegator;
-        $delegator->addToLookup($this);
+        $delegator->addContainer($this);
 
         return $this;
     }

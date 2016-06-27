@@ -192,7 +192,13 @@ trait ReferenceTrait
         }
 
         // lookup the reference
-        $val = $this->referenceLookup($name);
+        if ($this instanceof DelegatorAwareInterface &&
+            $this->hasDelegator()
+        ) {
+            $val = $this->delegatedReference($name);
+        } else {
+            $val = $this->getReference($name);
+        }
 
         // dealing with unknown reference
         if (is_null($val)) {
@@ -227,30 +233,21 @@ trait ReferenceTrait
     }
 
     /**
-     * Lookup reference with delegator or self
+     * Lookup reference with delegator
      *
      * @param  string $name
      * @return mixed
      * @access private
      */
-    private function referenceLookup(/*# string */ $name)
+    private function delegatedReference(/*# string */ $name)
     {
-        // try delegator
-        if ($this instanceof DelegatorAwareInterface &&
-            $this->hasDelegator()
-        ) {
-            /* @var $delegator DelegatorInterface */
-            $delegator = $this->getDelegator();
+        /* @var $delegator DelegatorInterface */
+        $delegator = $this->getDelegator();
 
-            if ($delegator->hasInLookup($name)) {
-                $val = $delegator->getFromLookup($name);
-            } else {
-                $val = null;
-            }
-
-        // try self
+        if ($delegator->hasInLookup($name)) {
+            $val = $delegator->getFromLookup($name);
         } else {
-            $val = $this->getReference($name);
+            $val = null;
         }
 
         return $val;

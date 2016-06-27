@@ -16,6 +16,7 @@ namespace Phossa2\Shared\Reference;
 
 use Phossa2\Shared\Message\Message;
 use Phossa2\Shared\Exception\NotFoundException;
+use Phossa2\Shared\Exception\InvalidArgumentException;
 
 /**
  * DelegatorTrait
@@ -31,7 +32,7 @@ use Phossa2\Shared\Exception\NotFoundException;
 trait DelegatorTrait
 {
     /**
-     * lookup pool
+     * lookup pool of containers
      *
      * @var    array
      * @access private
@@ -39,7 +40,7 @@ trait DelegatorTrait
     private $lookup_pool = [];
 
     /**
-     * lookup cache key
+     * cached lookup key
      *
      * @var    string
      * @access private
@@ -47,7 +48,7 @@ trait DelegatorTrait
     private $cache_key;
 
     /**
-     * lookup cache object
+     * cached lookup container
      *
      * @var    object
      * @access private
@@ -57,15 +58,22 @@ trait DelegatorTrait
     /**
      * {@inheritDoc}
      */
-    public function addToLookup($object)
+    public function addContainer($container)
     {
-        // remove if exists already
-        $this->removeFromLookup($object);
+        if ($this->isValidContainer($container)) {
+            // remove container if exists already
+            $this->removeFromLookup($container);
 
-        // append to the pool end
-        $this->lookup_pool[] = $object;
+            // append to the pool end
+            $this->lookup_pool[] = $container;
 
-        return $this;
+            return $this;
+        }
+
+        throw new InvalidArgumentException(
+            Message::get(Message::MSG_ARGUMENT_INVALID, get_class($container)),
+            Message::MSG_ARGUMENT_INVALID
+        );
     }
 
     /**
@@ -73,10 +81,10 @@ trait DelegatorTrait
      */
     public function hasInLookup(/*# string */ $key)/*# : bool */
     {
-        foreach ($this->lookup_pool as $object) {
-            if ($this->hasInObject($object, $key)) {
+        foreach ($this->lookup_pool as $container) {
+            if ($this->hasInContainer($container, $key)) {
                 $this->cache_key = $key;
-                $this->cache_obj = $object;
+                $this->cache_obj = $container;
                 return true;
             }
         }
@@ -90,12 +98,12 @@ trait DelegatorTrait
     {
         // check cache first
         if ($key === $this->cache_key) {
-            return $this->getFromObject($this->cache_obj, $key);
+            return $this->getFromContainer($this->cache_obj, $key);
         }
 
         // try lookup
         if ($this->hasInLookup($key)) {
-            return $this->getFromObject($this->cache_obj, $key);
+            return $this->getFromContainer($this->cache_obj, $key);
         }
 
         // not found
@@ -108,14 +116,14 @@ trait DelegatorTrait
     /**
      * Remove one object from the pool
      *
-     * @param  object $object
+     * @param  object $container
      * @return $this
      * @access protected
      */
-    protected function removeFromLookup($object)
+    protected function removeFromLookup($container)
     {
         foreach ($this->lookup_pool as $idx => $obj) {
-            if ($object === $obj) {
+            if ($container === $obj) {
                 unset($this->lookup_pool[$idx]);
             }
         }
@@ -123,28 +131,37 @@ trait DelegatorTrait
     }
 
     /**
-     * Try has in object
+     * Is container type allowed in lookup pool ?
      *
-     * @param  object $object
+     * @param  object $container
+     * @return bool
+     * @access protected
+     */
+    abstract protected function isValidContainer($container)/*# : bool */;
+
+    /**
+     * Try has in container
+     *
+     * @param  object $container
      * @param  name $key
      * @return bool
      * @access protected
      */
-    abstract protected function hasInObject(
-        $object,
+    abstract protected function hasInContainer(
+        $container,
         /*# string */ $key
     )/*# : bool */;
 
     /**
-     * Try get from object
+     * Try get from container
      *
-     * @param  object $object
+     * @param  object $container
      * @param  name $key
      * @return mixed
      * @access protected
      */
-    abstract protected function getFromObject(
-        $object,
+    abstract protected function getFromContainer(
+        $container,
         /*# string */ $key
     );
 }

@@ -15,6 +15,7 @@
 namespace Phossa2\Shared\Reference;
 
 use Phossa2\Shared\Exception\NotFoundException;
+use Phossa2\Shared\Exception\InvalidArgumentException;
 
 /**
  * DelegatorInterface
@@ -29,14 +30,15 @@ use Phossa2\Shared\Exception\NotFoundException;
 interface DelegatorInterface
 {
     /**
-     * Append the object to lookup pool
+     * Append one container to lookup pool
      *
-     * @param  object object
+     * @param  object $container
      * @return $this
+     * @throws InvalidArgumentException if $container not the right type
      * @access public
      * @api
      */
-    public function addToLookup($object);
+    public function addContainer($container);
 
     /**
      * check reference existence in lookup pool

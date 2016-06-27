@@ -141,7 +141,7 @@ class Tree extends ObjectAbstract implements TreeInterface
         $result = [];
         foreach ($data as $k => $v) {
             $res = &$this->searchNode($k, $result);
-            if (is_array($v)) {
+            if (is_array($v) && is_array($res)) {
                 $res = array_replace_recursive($res, $this->fixTree($v));
             } else {
                 $res = $v;

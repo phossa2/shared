@@ -31,21 +31,44 @@ use Phossa2\Shared\Exception\RuntimeException;
 class Reader extends StaticAbstract implements ReaderInterface
 {
     /**
+     * supported types
+     *
+     * @var    string[]
+     * @access protected
+     * @staticvar
+     */
+    protected static $supported = ['ini', 'json', 'php', 'xml', 'serialized'];
+
+    /**
      * {@inheritDoc}
      */
     public static function readFile(/*# string */ $path)
     {
         $suffix = substr($path, strpos($path, '.') + 1);
-        $class  = static::getNameSpace() . '\\' . ucfirst($suffix) . 'Reader';
 
-        if (class_exists($class)) {
-            /* @var ReaderInterface $class */;
-            return $class::readFile($path);
+        if (!static::isSupported($suffix)) {
+            throw new RuntimeException(
+                Message::get(Message::MSG_PATH_TYPE_UNKNOWN, $suffix),
+                Message::MSG_PATH_TYPE_UNKNOWN
+            );
         }
 
-        throw new RuntimeException(
-            Message::get(Message::MSG_PATH_TYPE_UNKNOWN, $suffix),
-            Message::MSG_PATH_TYPE_UNKNOWN
-        );
+        /* @var ReaderInterface $class */
+        $class  = static::getNameSpace() . '\\' . ucfirst($suffix) . 'Reader';
+
+        return $class::readFile($path);
+    }
+
+    /**
+     * Is this type supported
+     *
+     * @param  string $type
+     * @return bool
+     * @access public
+     * @static
+     */
+    public static function isSupported(/*# string */ $type)/*# : bool */
+    {
+        return in_array($type, static::$supported);
     }
 }

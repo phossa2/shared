@@ -15,7 +15,6 @@
 namespace Phossa2\Shared\Reference;
 
 use Phossa2\Shared\Message\Message;
-use Phossa2\Shared\Exception\NotFoundException;
 use Phossa2\Shared\Exception\InvalidArgumentException;
 
 /**
@@ -107,10 +106,7 @@ trait DelegatorTrait
         }
 
         // not found
-        throw new NotFoundException(
-            Message::get(Message::MSG_REF_UNKNOWN, $key),
-            Message::MSG_REF_UNKNOWN
-        );
+        return null;
     }
 
     /**

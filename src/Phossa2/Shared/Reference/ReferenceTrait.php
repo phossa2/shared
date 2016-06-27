@@ -102,8 +102,6 @@ trait ReferenceTrait
     {
         $loop = 0;
         $matched = [];
-
-        // recursively dereference in the string $subject
         while ($this->hasReference($subject, $matched)) {
             // avoid looping
             $this->checkReferenceLoop($loop++, $matched[2]);
@@ -114,8 +112,6 @@ trait ReferenceTrait
             // value is another string
             if (is_string($val)) {
                 $subject = str_replace($matched[1], $val, $subject);
-
-            // value is an array, object, null etc.
             } else {
                 return $this->checkValue($val, $subject, $matched[1]);
             }
@@ -181,8 +177,7 @@ trait ReferenceTrait
      * @return mixed
      * @throws RuntimeException if reference unknown
      * @access private
-     * @since  2.0.6 added cache support
-     * @since  2.0.8 added delegatorAware support
+     * @since  2.0.8 added localCache support
      */
     private function resolveReference(/*# string */ $name)
     {
@@ -192,13 +187,7 @@ trait ReferenceTrait
         }
 
         // lookup the reference
-        if ($this instanceof DelegatorAwareInterface &&
-            $this->hasDelegator()
-        ) {
-            $val = $this->delegatedReference($name);
-        } else {
-            $val = $this->getReference($name);
-        }
+        $val = $this->referenceLookup($name);
 
         // dealing with unknown reference
         if (is_null($val)) {
@@ -239,17 +228,17 @@ trait ReferenceTrait
      * @return mixed
      * @access private
      */
-    private function delegatedReference(/*# string */ $name)
+    private function referenceLookup(/*# string */ $name)
     {
-        /* @var $delegator DelegatorInterface */
-        $delegator = $this->getDelegator();
-
-        if ($delegator->hasInLookup($name)) {
+        if ($this instanceof DelegatorAwareInterface &&
+            $this->hasDelegator()
+        ) {
+            /* @var $delegator DelegatorInterface */
+            $delegator = $this->getDelegator();
             $val = $delegator->getFromLookup($name);
         } else {
-            $val = null;
+            $val = $this->getReference($name);
         }
-
         return $val;
     }
 

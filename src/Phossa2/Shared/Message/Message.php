@@ -65,11 +65,6 @@ class Message extends MessageAbstract
     const MSG_REF_LOOP = 1606161051;
 
     /*
-     * Reference "%s" unknown
-     */
-    const MSG_REF_UNKNOWN = 1606161052;
-
-    /*
      * Delegator not found for "%s"
      */
     const MSG_DELEGATOR_UNKNOWN = 1606161060;
@@ -91,7 +86,6 @@ class Message extends MessageAbstract
         self::MSG_PATH_TYPE_UNKNOWN => 'Path type "%s" unknown',
         self::MSG_REF_MALFORMED => 'Malformed reference "%s" found',
         self::MSG_REF_LOOP => 'Looped reference "%s" found',
-        self::MSG_REF_UNKNOWN => 'Reference "%s" unknown',
         self::MSG_DELEGATOR_UNKNOWN => 'Delegator not found for "%s"',
         self::MSG_ARGUMENT_INVALID => 'Invalid argument "%s", expecting "%s"',
     ];

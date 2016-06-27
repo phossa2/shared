@@ -14,7 +14,6 @@
 
 namespace Phossa2\Shared\Reference;
 
-use Phossa2\Shared\Exception\NotFoundException;
 use Phossa2\Shared\Exception\InvalidArgumentException;
 
 /**
@@ -51,11 +50,10 @@ interface DelegatorInterface
     public function hasInLookup(/*# string */ $key)/*# : bool */;
 
     /**
-     * get reference from lookup pool
+     * get reference from lookup pool, return NULL if not found
      *
      * @param  string $key
      * @return mixed
-     * @throws NotFoundException if not found
      * @access public
      * @api
      */

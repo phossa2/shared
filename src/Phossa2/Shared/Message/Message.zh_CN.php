@@ -33,6 +33,6 @@ return [
     Message::MSG_PATH_TYPE_UNKNOWN => '未知文件后缀 "%s"',
     Message::MSG_REF_MALFORMED => '非正常替代变量 "%s"',
     Message::MSG_REF_LOOP => '替代变量 "%s" 陷入死循环',
-    Message::MSG_REF_UNKNOWN => '未知替代变量 "%s"',
     Message::MSG_DELEGATOR_UNKNOWN => '"%s" 的委托代理没有定义',
+    Message::MSG_ARGUMENT_INVALID => '参数形式 "%s" 不对，期望形式是 "%s"',
 ];

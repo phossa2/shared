@@ -43,12 +43,8 @@ trait DelegatorAwareTrait
      */
     public function setDelegator(DelegatorInterface $delegator)
     {
-        // set delegator
         $this->delegator = $delegator;
-
-        // append self to the registry pool
         $delegator->addRegistry($this);
-
         return $this;
     }
 

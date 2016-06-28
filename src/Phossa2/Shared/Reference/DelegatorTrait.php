@@ -59,20 +59,23 @@ trait DelegatorTrait
      */
     public function addRegistry($registry)
     {
-        if ($this->isValidRegistry($registry)) {
-            // remove this registry if exists already
-            $this->removeFromLookup($registry);
+        /* @var $registry DelegatorAwareInterface */
 
-            // append to the pool end
-            $this->lookup_pool[] = $registry;
-
-            return $this;
+        // check registry type
+        if (!$this->isValidRegistry($registry)) {
+            throw new InvalidArgumentException(
+                Message::get(Message::MSG_ARGUMENT_INVALID, get_class($registry)),
+                Message::MSG_ARGUMENT_INVALID
+            );
         }
 
-        throw new InvalidArgumentException(
-            Message::get(Message::MSG_ARGUMENT_INVALID, get_class($registry)),
-            Message::MSG_ARGUMENT_INVALID
-        );
+        // remove this registry if exists already
+        $this->removeFromLookup($registry);
+
+        // append to the pool end
+        $this->lookup_pool[] = $registry;
+
+        return $this;
     }
 
     /**

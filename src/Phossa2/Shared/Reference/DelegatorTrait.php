@@ -31,7 +31,7 @@ use Phossa2\Shared\Exception\InvalidArgumentException;
 trait DelegatorTrait
 {
     /**
-     * lookup pool of containers
+     * lookup pool of registries
      *
      * @var    array
      * @access private
@@ -47,30 +47,30 @@ trait DelegatorTrait
     private $cache_key;
 
     /**
-     * cached lookup container
+     * cached lookup registry
      *
      * @var    object
      * @access private
      */
-    private $cache_obj;
+    private $cache_reg;
 
     /**
      * {@inheritDoc}
      */
-    public function addContainer($container)
+    public function addRegistry($registry)
     {
-        if ($this->isValidContainer($container)) {
-            // remove container if exists already
-            $this->removeFromLookup($container);
+        if ($this->isValidRegistry($registry)) {
+            // remove this registry if exists already
+            $this->removeFromLookup($registry);
 
             // append to the pool end
-            $this->lookup_pool[] = $container;
+            $this->lookup_pool[] = $registry;
 
             return $this;
         }
 
         throw new InvalidArgumentException(
-            Message::get(Message::MSG_ARGUMENT_INVALID, get_class($container)),
+            Message::get(Message::MSG_ARGUMENT_INVALID, get_class($registry)),
             Message::MSG_ARGUMENT_INVALID
         );
     }
@@ -80,10 +80,10 @@ trait DelegatorTrait
      */
     public function hasInLookup(/*# string */ $key)/*# : bool */
     {
-        foreach ($this->lookup_pool as $container) {
-            if ($this->hasInContainer($container, $key)) {
+        foreach ($this->lookup_pool as $registry) {
+            if ($this->hasInRegistry($registry, $key)) {
                 $this->cache_key = $key;
-                $this->cache_obj = $container;
+                $this->cache_reg = $registry;
                 return true;
             }
         }
@@ -97,12 +97,12 @@ trait DelegatorTrait
     {
         // check cache first
         if ($key === $this->cache_key) {
-            return $this->getFromContainer($this->cache_obj, $key);
+            return $this->getFromRegistry($this->cache_reg, $key);
         }
 
         // try lookup
         if ($this->hasInLookup($key)) {
-            return $this->getFromContainer($this->cache_obj, $key);
+            return $this->getFromRegistry($this->cache_reg, $key);
         }
 
         // not found
@@ -112,14 +112,14 @@ trait DelegatorTrait
     /**
      * Remove one object from the pool
      *
-     * @param  object $container
+     * @param  object $registry
      * @return $this
      * @access protected
      */
-    protected function removeFromLookup($container)
+    protected function removeFromLookup($registry)
     {
-        foreach ($this->lookup_pool as $idx => $obj) {
-            if ($container === $obj) {
+        foreach ($this->lookup_pool as $idx => $reg) {
+            if ($registry === $reg) {
                 unset($this->lookup_pool[$idx]);
             }
         }
@@ -127,37 +127,37 @@ trait DelegatorTrait
     }
 
     /**
-     * Is container type allowed in lookup pool ?
+     * Is registry type allowed in lookup pool ?
      *
-     * @param  object $container
+     * @param  object $registry
      * @return bool
      * @access protected
      */
-    abstract protected function isValidContainer($container)/*# : bool */;
+    abstract protected function isValidRegistry($registry)/*# : bool */;
 
     /**
-     * Try has in container
+     * Try has in registry
      *
-     * @param  object $container
+     * @param  object $registry
      * @param  name $key
      * @return bool
      * @access protected
      */
-    abstract protected function hasInContainer(
-        $container,
+    abstract protected function hasInRegistry(
+        $registry,
         /*# string */ $key
     )/*# : bool */;
 
     /**
-     * Try get from container
+     * Try get from registry
      *
-     * @param  object $container
+     * @param  object $registry
      * @param  name $key
      * @return mixed
      * @access protected
      */
-    abstract protected function getFromContainer(
-        $container,
+    abstract protected function getFromRegistry(
+        $registry,
         /*# string */ $key
     );
 }

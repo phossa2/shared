@@ -29,18 +29,18 @@ use Phossa2\Shared\Exception\InvalidArgumentException;
 interface DelegatorInterface
 {
     /**
-     * Append one container to lookup pool
+     * Append one registry to lookup pool
      *
-     * @param  object $container
+     * @param  object $registry
      * @return $this
-     * @throws InvalidArgumentException if $container not the right type
+     * @throws InvalidArgumentException if $registry not the right type
      * @access public
      * @api
      */
-    public function addContainer($container);
+    public function addRegistry($registry);
 
     /**
-     * check reference existence in lookup pool
+     * check reference existence in the whole lookup pool
      *
      * @param  string $key
      * @return bool

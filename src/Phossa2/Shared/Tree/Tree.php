@@ -97,8 +97,21 @@ class Tree extends ObjectAbstract implements TreeInterface
      */
     public function addNode(/*# string */ $nodeName, $data)
     {
+        // get the node
         $node = &$this->searchNode($nodeName, $this->tree);
-        $node = is_array($data) ? $this->fixTree($data) : $data;
+
+        // fix data
+        if (is_array($data)) {
+            $data = $this->fixTree($data);
+        }
+
+        // merge
+        if (is_array($node) && is_array($data)) {
+            $node = array_replace_recursive($node, $data);
+        } else {
+            $node = $data;
+        }
+
         return $this;
     }
 

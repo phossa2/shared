@@ -38,9 +38,8 @@ trait ShareableTrait
      * minimum constructor
      *
      * @access public
-     * @final
      */
-    final public function __construct()
+    public function __construct()
     {
     }
 
@@ -52,9 +51,19 @@ trait ShareableTrait
     )/*# : ShareableInterface */ {
         $class = get_called_class();
         if (!isset(self::$shareables[$scope][$class])) {
-            self::$shareables[$scope][$class] = new static();
+            static::setShareable(new static(), $scope);
         }
         return self::$shareables[$class];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function setShareable(
+        ShareableInterface $instance,
+        /*# string */ $scope = '__GLOBAL__'
+    ) {
+        self::$shareables[$scope][get_called_class()] = $instance;
     }
 
     /*

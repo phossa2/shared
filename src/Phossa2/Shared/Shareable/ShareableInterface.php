@@ -41,6 +41,20 @@ interface ShareableInterface
     )/*# : ShareableInterface */;
 
     /**
+     * Set the shared instance for this $scope
+     *
+     * @param  ShareableInterface $instance
+     * @param  string $scope default to '__GLOBAL__'
+     * @access public
+     * @static
+     * @api
+     */
+    public static function setShareable(
+        ShareableInterface $instance,
+        /*# string */ $scope = '__GLOBAL__'
+    );
+
+    /**
      * Is $this the shared instance for this $scope ?
      *
      * @param  string $scope default to '__GLOBAL__'

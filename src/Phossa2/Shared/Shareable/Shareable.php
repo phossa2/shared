@@ -29,4 +29,18 @@ use Phossa2\Shared\Base\ObjectAbstract;
 class Shareable extends ObjectAbstract implements ShareableInterface
 {
     use ShareableTrait;
+
+    /**
+     * minimum constructor
+     *
+     * @param  string $scope
+     * @access public
+     */
+    public function __construct(/*# string */ $scope = '')
+    {
+        // add scope if not empty
+        if ('' !== $scope) {
+            $this->addScope($scope);
+        }
+    }
 }

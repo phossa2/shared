@@ -53,15 +53,6 @@ trait ShareableTrait
      */
     protected $scopes = [];
 
-    /**
-     * minimum constructor
-     *
-     * @access public
-     */
-    public function __construct()
-    {
-    }
-
     /*
      * {@inheritDoc}
      */

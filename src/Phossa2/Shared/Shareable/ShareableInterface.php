@@ -45,25 +45,6 @@ interface ShareableInterface
     )/*# : ShareableInterface */;
 
     /**
-     * Is there a shared instance for this $scope ?
-     *
-     * @param string $scope
-     * @return bool
-     * @access public
-     * @api
-     */
-    public static function hasShareable(/*# string */ $scope = '')/*# : bool */;
-
-    /**
-     * Clear shareable instance for $scope
-     *
-     * @param  string $scope
-     * @access public
-     * @api
-     */
-    public static function clearShareable(/*# string */ $scope = '');
-
-    /**
      * Set $this as the shared instance for $scope
      *
      * @param  string $scope default to '' (global)
@@ -73,6 +54,15 @@ interface ShareableInterface
      * @api
      */
     public function setShareable(/*# string */ $scope = '');
+
+    /**
+     * Is $this the shared instance for $scope, false or returns the scope
+     *
+     * @return string|false
+     * @access public
+     * @api
+     */
+    public function isShareable();
 
     /**
      * Add $this instance to $scope
@@ -109,13 +99,4 @@ interface ShareableInterface
      * @api
      */
     public function getShareables()/*# : array */;
-
-    /**
-     * Is $this the shared instance for $scope, false or returns the scope
-     *
-     * @return string|false
-     * @access public
-     * @api
-     */
-    public function isShareable();
 }

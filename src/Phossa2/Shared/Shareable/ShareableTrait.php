@@ -32,10 +32,10 @@ trait ShareableTrait
      * Shareables' pool
      *
      * @var    ShareableInstance[]
-     * @access private
+     * @access protected
      * @staticvar
      */
-    private static $shareables = [];
+    protected static $shareables = [];
 
     /**
      * Is this shared instance, store scope here
@@ -59,32 +59,10 @@ trait ShareableTrait
     public static function getShareable(
         /*# string */ $scope = ''
     )/*# : ShareableInterface */ {
-        // create the shared instance if not yet
         if (!static::hasShareable($scope)) {
             (new static())->setShareable($scope);
         }
-
         return self::$shareables[get_called_class()][$scope];
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public static function hasShareable(/*# string */ $scope = '')/*# : bool */
-    {
-        return isset(self::$shareables[get_called_class()][$scope]);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public static function clearShareable(/*# string */ $scope = '')
-    {
-        if (static::hasShareable($scope)) {
-            $shared = static::getShareable($scope);
-            $shared->shared_in = null;
-            unset(self::$shareables[get_called_class()][$scope]);
-        }
     }
 
     /**
@@ -109,11 +87,17 @@ trait ShareableTrait
     /**
      * {@inheritDoc}
      */
+    public function isShareable()
+    {
+        return is_null($this->shared_in) ? false : $this->shared_in;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function addScope(/*# string */ $scope)
     {
-        if ($this->isShareable() === false &&
-            !$this->hasScope($scope)
-        ) {
+        if ($this->isShareable() === false) {
             $this->scopes[] = $scope;
         }
         return $this;
@@ -124,7 +108,7 @@ trait ShareableTrait
      */
     public function hasScope(/*# string */ $scope = '')/*# : bool */
     {
-        return in_array($scope, $this->getScopes());
+        return in_array($scope, static::getScopes($this->scopes));
     }
 
     /**
@@ -133,40 +117,42 @@ trait ShareableTrait
     public function getShareables()/*# : array */
     {
         $result = [];
-        foreach ($this->getScopes() as $scope) {
+        foreach (static::getScopes($this->scopes) as $scope) {
             $result[] = static::getShareable($scope);
         }
         return $result;
     }
 
     /**
-     * {@inheritDoc}
+     * Test existense of shareable in $scope
+     *
+     * @param  string $scope
+     * @return bool
+     * @access protected
      */
-    public function isShareable()
-    {
-        return is_null($this->shared_in) ? false : $this->shared_in;
+    protected static function hasShareable(
+        /*# string */ $scope = ''
+    )/*# : bool */ {
+        return isset(self::$shareables[get_called_class()][$scope]);
     }
 
     /**
      * Get all unique scopes for $this if not a shared instance
      *
+     * @param  string|array $scopes
      * @return array
      * @access protected
+     * @static
      */
-    protected function getScopes()/*# : array */
+    protected static function getScopes($scopes)/*# : array */
     {
         $result = [];
 
-        // skip shareable
-        if ($this->isShareable() !== false) {
-            return $result;
+        foreach ((array) $scopes as $scope) {
+            $result = array_merge($result, static::splitScope($scope));
         }
 
-        foreach ($this->scopes as $scope) {
-            $result = array_merge($result, $this->splitScope($scope));
-        }
-
-        // add the global scope
+        // add global scope
         $result[] = '';
 
         return array_unique($result);
@@ -178,8 +164,9 @@ trait ShareableTrait
      * @param  string $scope
      * @return array
      * @access protected
+     * @static
      */
-    protected function splitScope(/*# string */ $scope)/*# : array */
+    protected static function splitScope(/*# string */ $scope)/*# : array */
     {
         $result = [];
         $parts = explode('.', $scope);

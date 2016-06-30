@@ -20,7 +20,6 @@ class ShareableTest extends \PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        Shareable::clearShareable();
         parent::tearDown();
     }
 
@@ -42,68 +41,14 @@ class ShareableTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers Phossa2\Shared\Shareable\Shareable::hasShareable()
-     */
-    public function testHasShareable()
-    {
-        // no shareable
-        $this->assertFalse(Shareable::hasShareable());
-
-        // create one
-        $shared = Shareable::getShareable();
-
-        // has one now
-        $this->assertTrue(Shareable::hasShareable());
-    }
-
-    /**
-     * @covers Phossa2\Shared\Shareable\Shareable::clearShareable()
-     */
-    public function testClearShareable()
-    {
-        // no shareable
-        $this->assertFalse(Shareable::hasShareable());
-
-        // create one
-        $shared = Shareable::getShareable();
-
-        // has one now
-        $this->assertTrue(Shareable::hasShareable());
-
-        // clear it
-        Shareable::clearShareable();
-
-        // no shareable anymore
-        $this->assertFalse(Shareable::hasShareable());
-    }
-
-    /**
-     * @covers Phossa2\Shared\Shareable\Shareable::setShareable()
-     */
-    public function testSetShareable1()
-    {
-        // no shareable
-        $this->assertFalse(Shareable::hasShareable());
-
-        // create one
-        (new Shareable())->setShareable();
-
-        // has one now
-        $this->assertTrue(Shareable::hasShareable());
-    }
-
-    /**
      * Already has one shareable in scope ''
      *
      * @covers Phossa2\Shared\Shareable\Shareable::setShareable()
      * @expectedException Phossa2\Shared\Exception\RuntimeException
      * @expectedExceptionCode Phossa2\Shared\Message\Message::MSG_SHAREABLE_FAIL
      */
-    public function testSetShareable2()
+    public function testSetShareable1()
     {
-        // no shareable
-        $this->assertFalse(Shareable::hasShareable());
-
         // create one
         Shareable::getShareable();
 
@@ -118,7 +63,7 @@ class ShareableTest extends \PHPUnit_Framework_TestCase
      * @expectedException Phossa2\Shared\Exception\RuntimeException
      * @expectedExceptionCode Phossa2\Shared\Message\Message::MSG_SHAREABLE_FAIL
      */
-    public function testSetShareable3()
+    public function testSetShareable2()
     {
         // get shareable in global scope
         $shared = Shareable::getShareable();
@@ -160,10 +105,10 @@ class ShareableTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($obj->isShareable() !== false);
 
         // add scope
-        $obj->setShareable();
+        $shared = Shareable::getShareable();
 
         // is shareable now
-        $this->assertTrue($obj->isShareable() !== false);
+        $this->assertTrue($shared->isShareable() !== false);
     }
 
     /**

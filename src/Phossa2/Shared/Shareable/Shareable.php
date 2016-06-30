@@ -40,10 +40,7 @@ class Shareable extends ObjectAbstract implements ShareableInterface
     {
         // add scope if not empty
         if ('' !== $scopes) {
-            $scopes = (array) $scopes;
-            foreach ($scopes as $scope) {
-                $this->addScope($scope);
-            }
+            $this->scopes = (array) $scopes;
         }
     }
 }

@@ -14,11 +14,15 @@
 
 namespace Phossa2\Shared\Shareable;
 
+use Phossa2\Shared\Exception\RuntimeException;
+
 /**
  * ShareableInterface
  *
- * Instances can be instantiated with `new`, but a shareable copy in one scope
- * can only be get thru `getShareable($scope)`
+ * - Instances can be instantiated, but a shared instance in the scope (default
+ *   global scope is '') can only be get thru `::getShareable($scope)`.
+ *
+ * - Hierarchy scope of 'vendor.app' belongs to 'vendor' and '' (global)
  *
  * @package Phossa2\Shared
  * @author  Hong Zhang <phossa@126.com>
@@ -28,41 +32,90 @@ namespace Phossa2\Shared\Shareable;
 interface ShareableInterface
 {
     /**
-     * Get the shared instance for this $scope
+     * Get the shared instance for $scope
      *
-     * @param  string $scope default to '__GLOBAL__'
+     * @param  string $scope default to '' (global)
      * @return ShareableInterface
      * @access public
      * @static
      * @api
      */
     public static function getShareable(
-        /*# string */ $scope = '__GLOBAL__'
+        /*# string */ $scope = ''
     )/*# : ShareableInterface */;
 
     /**
-     * Set the shared instance for this $scope
+     * Is there a shared instance for this $scope ?
      *
-     * @param  ShareableInterface $instance
-     * @param  string $scope default to '__GLOBAL__'
-     * @access public
-     * @static
-     * @api
-     */
-    public static function setShareable(
-        ShareableInterface $instance,
-        /*# string */ $scope = '__GLOBAL__'
-    );
-
-    /**
-     * Is $this the shared instance for this $scope ?
-     *
-     * @param  string $scope default to '__GLOBAL__'
+     * @param string $scope
      * @return bool
      * @access public
      * @api
      */
-    public function isShareable(
-        /*# string */ $scope = '__GLOBAL__'
-    )/*# : bool */;
+    public static function hasShareable(/*# string */ $scope = '')/*# : bool */;
+
+    /**
+     * Clear shareable instance for $scope
+     *
+     * @param  string $scope
+     * @access public
+     * @api
+     */
+    public static function clearShareable(/*# string */ $scope = '');
+
+    /**
+     * Set $this as the shared instance for $scope
+     *
+     * @param  string $scope default to '' (global)
+     * @return $this
+     * @throws RuntimeException if shareable exists already
+     * @access public
+     * @api
+     */
+    public function setShareable(/*# string */ $scope = '');
+
+    /**
+     * Add $this instance to $scope
+     *
+     * - adding scope to a shared instance will be ignored
+     * - scope of type 'vendor.app' means 2 scopes, 'vendor' and 'vendor.app'
+     * - all non-shareables belongs to the global scope ''
+     *
+     * @param  string $scope
+     * @return $this
+     * @access public
+     * @api
+     */
+    public function addScope(/*# string */ $scope);
+
+    /**
+     * Is $this belongs to $scope ?
+     *
+     * @param  string $scope
+     * @return bool
+     * @access public
+     * @api
+     */
+    public function hasScope(/*# string */ $scope = '')/*# : bool */;
+
+    /**
+     * Get all shared instances for $this instance's scopes
+     *
+     * If scope is 'vendor.app' will return 3 shareable corresponding to
+     * 'vendor.app', 'vendor' and '' (global).
+     *
+     * @return ShareableInterface[]
+     * @access public
+     * @api
+     */
+    public function getShareables()/*# : array */;
+
+    /**
+     * Is $this the shared instance for $scope, false or returns the scope
+     *
+     * @return string|false
+     * @access public
+     * @api
+     */
+    public function isShareable();
 }

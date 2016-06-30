@@ -74,6 +74,16 @@ class Message extends MessageAbstract
      */
     const MSG_ARGUMENT_INVALID = 1606161070;
 
+    /*
+     * Is shareable instance for "%s"
+     */
+    const MSG_SHAREABLE_ALREADY = 1606161080;
+
+    /*
+     * Already has shareable instance for "%s"
+     */
+    const MSG_SHAREABLE_DUPPED = 1606161081;
+
     /**
      * {@inheritDoc}
      */
@@ -88,5 +98,7 @@ class Message extends MessageAbstract
         self::MSG_REF_LOOP => 'Looped reference "%s" found',
         self::MSG_DELEGATOR_UNKNOWN => 'Delegator not found for "%s"',
         self::MSG_ARGUMENT_INVALID => 'Invalid argument "%s", expecting "%s"',
+        self::MSG_SHAREABLE_ALREADY => 'Is shareable instance for "%s"',
+        self::MSG_SHAREABLE_DUPPED => 'Already has shareable instance for "%s"',
     ];
 }

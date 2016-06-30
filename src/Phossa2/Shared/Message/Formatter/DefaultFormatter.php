@@ -23,7 +23,7 @@ use Phossa2\Shared\Base\ObjectAbstract;
  * @author  Hong Zhang <phossa@126.com>
  * @see     ObjectAbstract
  * @see     FormatterInterface
- * @version 2.0.0
+ * @version 2.0.10
  * @since   2.0.0 added
  */
 class DefaultFormatter extends ObjectAbstract implements FormatterInterface
@@ -45,12 +45,12 @@ class DefaultFormatter extends ObjectAbstract implements FormatterInterface
      * @param array &$arguments
      * @return $this
      * @access protected
+     * @since  2.0.10 modified to use json_encode
      */
     protected function stringize(array &$arguments)
     {
         array_walk($arguments, function (&$value) {
-            $value = is_scalar($value) ? (string) $value :
-                substr(print_r($value, true), 0, 50);
+            $value = is_string($value) ? $value : json_encode($value, 0, 2);
         });
         return $this;
     }

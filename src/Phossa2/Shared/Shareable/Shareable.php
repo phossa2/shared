@@ -31,16 +31,19 @@ class Shareable extends ObjectAbstract implements ShareableInterface
     use ShareableTrait;
 
     /**
-     * minimum constructor
+     * instantiated with scopes
      *
-     * @param  string $scope
+     * @param  string|array $scopes
      * @access public
      */
-    public function __construct(/*# string */ $scope = '')
+    public function __construct($scopes = '')
     {
         // add scope if not empty
-        if ('' !== $scope) {
-            $this->addScope($scope);
+        if ('' !== $scopes) {
+            $scopes = (array) $scopes;
+            foreach ($scopes as $scope) {
+                $this->addScope($scope);
+            }
         }
     }
 }

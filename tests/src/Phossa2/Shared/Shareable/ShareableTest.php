@@ -97,7 +97,7 @@ class ShareableTest extends \PHPUnit_Framework_TestCase
      *
      * @covers Phossa2\Shared\Shareable\Shareable::setShareable()
      * @expectedException Phossa2\Shared\Exception\RuntimeException
-     * @expectedExceptionCode Phossa2\Shared\Message\Message::MSG_SHAREABLE_DUPPED
+     * @expectedExceptionCode Phossa2\Shared\Message\Message::MSG_SHAREABLE_FAIL
      */
     public function testSetShareable2()
     {
@@ -116,7 +116,7 @@ class ShareableTest extends \PHPUnit_Framework_TestCase
      *
      * @covers Phossa2\Shared\Shareable\Shareable::setShareable()
      * @expectedException Phossa2\Shared\Exception\RuntimeException
-     * @expectedExceptionCode Phossa2\Shared\Message\Message::MSG_SHAREABLE_ALREADY
+     * @expectedExceptionCode Phossa2\Shared\Message\Message::MSG_SHAREABLE_FAIL
      */
     public function testSetShareable3()
     {

@@ -35,6 +35,5 @@ return [
     Message::MSG_REF_LOOP => '替代变量 "%s" 陷入死循环',
     Message::MSG_DELEGATOR_UNKNOWN => '"%s" 的委托代理没有定义',
     Message::MSG_ARGUMENT_INVALID => '参数形式 "%s" 不对，期望形式是 "%s"',
-    Message::MSG_SHAREABLE_ALREADY => '实例已经在域  "%s" 中共享了',
-    Message::MSG_SHAREABLE_DUPPED => '域  "%s" 中已经有共享实例',
+    Message::MSG_SHAREABLE_FAIL => '在域  "%s" 中设置实例共享失败',
 ];

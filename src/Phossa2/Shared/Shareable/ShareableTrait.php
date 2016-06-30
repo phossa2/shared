@@ -101,22 +101,11 @@ trait ShareableTrait
      */
     public function setShareable(/*# string */ $scope = '')
     {
-        // this $scope has shareable already
-        if (static::hasShareable($scope)) {
+        // this $scope has shareable already or $this is a shareable
+        if (static::hasShareable($scope) || $this->isShareable() !== false) {
             throw new RuntimeException(
-                Message::get(Message::MSG_SHAREABLE_DUPPED, $scope),
-                Message::MSG_SHAREABLE_DUPPED
-            );
-        }
-
-        // try assign $this shareable to another scope
-        if ($this->isShareable() !== false) {
-            throw new RuntimeException(
-                Message::get(
-                    Message::MSG_SHAREABLE_ALREADY,
-                    $this->isShareable() ?: 'GLBOAL'
-                ),
-                Message::MSG_SHAREABLE_ALREADY
+                Message::get(Message::MSG_SHAREABLE_FAIL, $scope),
+                Message::MSG_SHAREABLE_FAIL
             );
         }
 

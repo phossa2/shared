@@ -65,10 +65,9 @@ interface ShareableInterface
     public function isShareable();
 
     /**
-     * Add $this instance to $scope
+     * Add $scope to $this instance
      *
      * - adding scope to a shared instance will be ignored
-     * - scope of type 'vendor.app' means 2 scopes, 'vendor' and 'vendor.app'
      * - all non-shareables belongs to the global scope ''
      *
      * @param  string $scope
@@ -90,9 +89,6 @@ interface ShareableInterface
 
     /**
      * Get all shared instances for $this instance's scopes
-     *
-     * If scope is 'vendor.app' will return 3 shareable corresponding to
-     * 'vendor.app', 'vendor' and '' (global).
      *
      * @return ShareableInterface[]
      * @access public

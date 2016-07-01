@@ -89,7 +89,6 @@ class ShareableTest extends \PHPUnit_Framework_TestCase
 
         // check scopes
         $this->assertTrue($obj->hasScope('vendor.app'));
-        $this->assertTrue($obj->hasScope('vendor'));
         $this->assertTrue($obj->hasScope(''));
     }
 
@@ -123,6 +122,6 @@ class ShareableTest extends \PHPUnit_Framework_TestCase
         $shareables = $obj->getShareables();
 
         // all 4 shareables
-        $this->assertEquals(4, count($shareables));
+        $this->assertEquals(3, count($shareables));
     }
 }

@@ -38,7 +38,7 @@ trait ShareableTrait
     protected static $shareables = [];
 
     /**
-     * Is this shared instance, store scope here
+     * Is this shared instance, store its $scope here
      *
      * @var    string
      * @access protected
@@ -97,18 +97,22 @@ trait ShareableTrait
      */
     public function addScope(/*# string */ $scope)
     {
-        if ($this->isShareable() === false) {
+        if ($this->isShareable() === false &&
+            !in_array($scope, $this->scopes)
+        ) {
             $this->scopes[] = $scope;
         }
         return $this;
     }
 
     /**
+     * Checking with $scope explicitly
+     *
      * {@inheritDoc}
      */
     public function hasScope(/*# string */ $scope = '')/*# : bool */
     {
-        return in_array($scope, static::getScopes($this->scopes));
+        return in_array($scope, $this->getScopes());
     }
 
     /**
@@ -117,7 +121,7 @@ trait ShareableTrait
     public function getShareables()/*# : array */
     {
         $result = [];
-        foreach (static::getScopes($this->scopes) as $scope) {
+        foreach ($this->getScopes() as $scope) {
             $result[] = static::getShareable($scope);
         }
         return $result;
@@ -137,45 +141,18 @@ trait ShareableTrait
     }
 
     /**
-     * Get all unique scopes for $this if not a shared instance
+     * Get all unique scopes for $this
      *
      * @param  string|array $scopes
      * @return array
      * @access protected
-     * @static
      */
-    protected static function getScopes($scopes)/*# : array */
+    protected function getScopes()/*# : array */
     {
-        $result = [];
-
-        foreach ((array) $scopes as $scope) {
-            $result = array_merge($result, static::splitScope($scope));
+        // alway add global scope ''
+        if (!in_array('', $this->scopes)) {
+            $this->addScope('');
         }
-
-        // add global scope
-        $result[] = '';
-
-        return array_unique($result);
-    }
-
-    /**
-     * Split a scope of 'vendor.app' into ['vendor.app', 'vendor']
-     *
-     * @param  string $scope
-     * @return array
-     * @access protected
-     * @static
-     */
-    protected static function splitScope(/*# string */ $scope)/*# : array */
-    {
-        $result = [];
-        $parts = explode('.', $scope);
-
-        while (!empty($parts)) {
-            $result[] = join('.', $parts);
-            array_pop($parts);
-        }
-
-        return $result;
+        return $this->scopes;
     }
 }

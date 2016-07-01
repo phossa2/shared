@@ -68,6 +68,18 @@ trait ShareableTrait
     /**
      * {@inheritDoc}
      */
+    public static function getScopes()/*# : array */
+    {
+        if (isset(self::$shareables[get_called_class()])) {
+            return array_keys(self::$shareables[get_called_class()]);
+        } else {
+            return [];
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function setShareable(/*# string */ $scope = '')
     {
         // this $scope has shareable already or $this is a shareable
@@ -112,7 +124,7 @@ trait ShareableTrait
      */
     public function hasScope(/*# string */ $scope = '')/*# : bool */
     {
-        return in_array($scope, $this->getScopes());
+        return in_array($scope, $this->getOwnScopes());
     }
 
     /**
@@ -122,7 +134,7 @@ trait ShareableTrait
     {
         $result = [];
         if (false === $this->isShareable()) {
-            foreach ($this->getScopes() as $scope) {
+            foreach ($this->getOwnScopes() as $scope) {
                 $result[] = static::getShareable($scope);
             }
         }
@@ -145,11 +157,10 @@ trait ShareableTrait
     /**
      * Get all unique scopes for $this
      *
-     * @param  string|array $scopes
      * @return array
      * @access protected
      */
-    protected function getScopes()/*# : array */
+    protected function getOwnScopes()/*# : array */
     {
         // alway add global scope ''
         if (!in_array('', $this->scopes)) {

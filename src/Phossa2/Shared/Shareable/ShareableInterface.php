@@ -45,6 +45,16 @@ interface ShareableInterface
     )/*# : ShareableInterface */;
 
     /**
+     * Get all avaiable scopes for this class
+     *
+     * @return string[]
+     * @access public
+     * @static
+     * @api
+     */
+    public static function getScopes()/*# : array */;
+
+    /**
      * Set $this as the shared instance for $scope
      *
      * @param  string $scope default to '' (global)

@@ -121,8 +121,10 @@ trait ShareableTrait
     public function getShareables()/*# : array */
     {
         $result = [];
-        foreach ($this->getScopes() as $scope) {
-            $result[] = static::getShareable($scope);
+        if (false === $this->isShareable()) {
+            foreach ($this->getScopes() as $scope) {
+                $result[] = static::getShareable($scope);
+            }
         }
         return $result;
     }

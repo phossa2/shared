@@ -35,6 +35,11 @@ class Message extends MessageAbstract
     const MSG_CLASS_STATIC = 1606161031;
 
     /*
+     * Method "%s" not found for "%s"
+     */
+    const MSG_METHOD_NOTFOUND = 1606161035;
+
+    /*
      * Path "%s" not found
      */
     const MSG_PATH_NOTFOUND = 1606161040;
@@ -85,6 +90,7 @@ class Message extends MessageAbstract
     protected static $messages = [
         self::MSG_CLASS_NOTFOUND => 'Class "%s" not found',
         self::MSG_CLASS_STATIC => 'Static class "%s" not instantiable',
+        self::MSG_METHOD_NOTFOUND => 'Method "%s" not found for "%s"',
         self::MSG_PATH_NOTFOUND => 'Path "%s" not found',
         self::MSG_PATH_NONREADABLE => 'Path "%s" not readable',
         self::MSG_PATH_NONWRITABLE => 'Path "%s" not writable',

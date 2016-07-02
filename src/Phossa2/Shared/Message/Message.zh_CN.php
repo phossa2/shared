@@ -27,6 +27,7 @@ use Phossa2\Shared\Message\Message;
 return [
     Message::MSG_CLASS_NOTFOUND => '没有找到类库 "%s"',
     Message::MSG_CLASS_STATIC => '静态库 "%s" 不可实例化',
+    Message::MSG_METHOD_NOTFOUND => '方法 "%s" 在类 "%s" 中没有找到',
     Message::MSG_PATH_NOTFOUND => '文件 "%s" 不存在',
     Message::MSG_PATH_NONREADABLE => '文件 "%s" 不可读',
     Message::MSG_PATH_NONWRITABLE => '文件 "%s" 不可写',

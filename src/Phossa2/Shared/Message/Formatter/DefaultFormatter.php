@@ -50,7 +50,7 @@ class DefaultFormatter extends ObjectAbstract implements FormatterInterface
     protected function stringize(array &$arguments)
     {
         array_walk($arguments, function (&$value) {
-            $value = is_string($value) ? $value : json_encode($value, 0, 2);
+            $value = is_string($value) ? $value : json_encode($value, 0);
         });
         return $this;
     }

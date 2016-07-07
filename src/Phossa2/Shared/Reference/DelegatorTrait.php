@@ -98,16 +98,10 @@ trait DelegatorTrait
      */
     public function getFromLookup(/*# string */ $key)
     {
-        // check cache first
-        if ($key === $this->cache_key) {
+        // lookup already ? try lookup first
+        if ($key === $this->cache_key || $this->hasInLookup($key)) {
             return $this->getFromRegistry($this->cache_reg, $key);
         }
-
-        // try lookup
-        if ($this->hasInLookup($key)) {
-            return $this->getFromRegistry($this->cache_reg, $key);
-        }
-
         // not found
         return null;
     }

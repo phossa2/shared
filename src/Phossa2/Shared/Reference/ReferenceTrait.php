@@ -15,7 +15,6 @@
 namespace Phossa2\Shared\Reference;
 
 use Phossa2\Shared\Message\Message;
-use Phossa2\Shared\Cache\LocalCacheTrait;
 use Phossa2\Shared\Exception\RuntimeException;
 
 /**
@@ -30,11 +29,10 @@ use Phossa2\Shared\Exception\RuntimeException;
  * @since   2.0.4 added
  * @since   2.0.6 added reference cache support
  * @since   2.0.8 added delegator support, changed to LocaclCache
+ * @since   2.0.12 removed LocalCache
  */
 trait ReferenceTrait
 {
-    use LocalCacheTrait;
-
     /**
      * refernece start chars
      *
@@ -75,8 +73,6 @@ trait ReferenceTrait
         $this->ref_pattern = sprintf(
             "~(%s((?:(?!%s|%s).)+?)%s)~", $s, $s, $e, $e
         );
-
-        return $this->clearLocalCache();
     }
 
     /**
@@ -178,14 +174,10 @@ trait ReferenceTrait
      * @throws RuntimeException if reference unknown
      * @access private
      * @since  2.0.8 added localCache support
+     * @since  2.0.13 removed localCache support
      */
     private function resolveReference(/*# string */ $name)
     {
-        // try reference cache first
-        if ($this->hasLocalCache($name)) {
-            return $this->getLocalCache($name);
-        }
-
         // lookup the reference
         $val = $this->referenceLookup($name);
 
@@ -193,10 +185,6 @@ trait ReferenceTrait
         if (is_null($val)) {
             $val = $this->resolveUnknown($name);
         }
-
-        // cache deref result
-        $this->setLocalCache($name, $val);
-
         return $val;
     }
 

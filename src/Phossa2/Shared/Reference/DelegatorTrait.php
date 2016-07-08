@@ -34,9 +34,9 @@ trait DelegatorTrait
      * lookup pool of registries
      *
      * @var    array
-     * @access private
+     * @access protected
      */
-    private $lookup_pool = [];
+    protected $lookup_pool = [];
 
     /**
      * cached lookup key

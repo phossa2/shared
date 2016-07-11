@@ -37,25 +37,25 @@ trait ReferenceTrait
      * refernece start chars
      *
      * @var    string
-     * @access private
+     * @access protected
      */
-    private $ref_start = '${';
+    protected $ref_start = '${';
 
     /**
      * reference ending chars
      *
      * @var    string
-     * @access private
+     * @access protected
      */
-    private $ref_end = '}';
+    protected $ref_end = '}';
 
     /**
      * cached pattern to match
      *
      * @var    string
-     * @access private
+     * @access protected
      */
-    private $ref_pattern = '~(\$\{((?:(?!\$\{|\}).)+?)\})~';
+    protected $ref_pattern = '~(\$\{((?:(?!\$\{|\}).)+?)\})~';
 
     /**
      * {@inheritDoc}
@@ -141,9 +141,9 @@ trait ReferenceTrait
      * @param  string $reference the matched whole reference
      * @return mixed
      * @throws RuntimeException if $subject malformed, like mix string & array
-     * @access private
+     * @access protected
      */
-    private function checkValue(
+    protected function checkValue(
         $value,
         /*# string */ $subject,
         /*# string */ $reference
@@ -172,11 +172,11 @@ trait ReferenceTrait
      * @param  string $name
      * @return mixed
      * @throws RuntimeException if reference unknown
-     * @access private
+     * @access protected
      * @since  2.0.8 added localCache support
      * @since  2.0.13 removed localCache support
      */
-    private function resolveReference(/*# string */ $name)
+    protected function resolveReference(/*# string */ $name)
     {
         // lookup the reference
         $val = $this->referenceLookup($name);
@@ -194,10 +194,10 @@ trait ReferenceTrait
      * @param  int $loop loop counter
      * @param  string $name reference name
      * @throws RuntimeException if loop found
-     * @access private
+     * @access protected
      * @since  2.0.6
      */
-    private function checkReferenceLoop(
+    protected function checkReferenceLoop(
         /*# int */ $loop,
         /*# string */ $name
     ) {
@@ -214,9 +214,9 @@ trait ReferenceTrait
      *
      * @param  string $name
      * @return mixed
-     * @access private
+     * @access protected
      */
-    private function referenceLookup(/*# string */ $name)
+    protected function referenceLookup(/*# string */ $name)
     {
         if ($this instanceof DelegatorAwareInterface &&
             $this->hasDelegator()

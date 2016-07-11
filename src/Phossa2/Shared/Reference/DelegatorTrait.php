@@ -68,11 +68,12 @@ trait DelegatorTrait
                 Message::MSG_ARGUMENT_INVALID
             );
         }
-        // register delegator
-        $registry->setDelegator($this);
 
         // remove this registry if exists already
         $this->removeFromLookup($registry);
+
+        // register delegator
+        $registry->setDelegator($this);
 
         // append to the pool end
         $this->lookup_pool[] = $registry;

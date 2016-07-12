@@ -84,6 +84,15 @@ trait DelegatorTrait
     /**
      * {@inheritDoc}
      */
+    public function clearAllRegistries()
+    {
+        $this->lookup_pool = [];
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function hasInLookup(/*# string */ $key)/*# : bool */
     {
         foreach ($this->lookup_pool as $registry) {

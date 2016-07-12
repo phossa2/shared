@@ -25,6 +25,7 @@ use Phossa2\Shared\Exception\InvalidArgumentException;
  * @author  Hong Zhang <phossa@126.com>
  * @version 2.0.8
  * @since   2.0.8 added
+ * @since   2.0.14 added clearAllRegistries
  */
 interface DelegatorInterface
 {
@@ -38,6 +39,14 @@ interface DelegatorInterface
      * @api
      */
     public function addRegistry($registry);
+
+    /**
+     * Clear all registries
+     *
+     * @return $this
+     * @access public
+     */
+    public function clearAllRegistries();
 
     /**
      * check reference existence in the whole lookup pool

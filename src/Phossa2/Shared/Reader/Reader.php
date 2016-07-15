@@ -54,7 +54,7 @@ class Reader extends StaticAbstract implements ReaderInterface
         }
 
         /* @var ReaderInterface $class */
-        $class  = static::getNameSpace() . '\\' . ucfirst($suffix) . 'Reader';
+        $class = static::getNameSpace() . '\\' . ucfirst($suffix) . 'Reader';
 
         return $class::readFile($path);
     }

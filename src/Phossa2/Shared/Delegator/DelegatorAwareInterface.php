@@ -23,7 +23,7 @@ use Phossa2\Shared\Exception\NotFoundException;
  * @author  Hong Zhang <phossa@126.com>
  * @version 2.0.8
  * @since   2.0.8  added
- * @since   2.0.15 moved to new namespace
+ * @since   2.0.15 moved to new namespace, allows null in setDelegator()
  */
 interface DelegatorAwareInterface
 {
@@ -36,7 +36,7 @@ interface DelegatorAwareInterface
      * @since  2.0.15 $delegator accepts null
      * @api
      */
-    public function setDelegator(DelegatorInterface $delegator);
+    public function setDelegator(DelegatorInterface $delegator = null);
 
     /**
      * Has delegator set ?

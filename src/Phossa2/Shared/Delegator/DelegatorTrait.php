@@ -123,7 +123,7 @@ trait DelegatorTrait
         foreach ($this->lookup_pool as $idx => $reg) {
             if ($registry === $reg) {
                 if ($reg instanceof DelegatorAwareInterface) {
-                    $reg->setDelegator(null);
+                    $reg->setDelegator();
                 }
                 unset($this->lookup_pool[$idx]);
             }
@@ -135,7 +135,7 @@ trait DelegatorTrait
      * Try HAS in registry
      *
      * @param  object $registry
-     * @param  name $key
+     * @param  string $key
      * @return bool
      * @access protected
      */
@@ -148,7 +148,7 @@ trait DelegatorTrait
      * Try GET from registry
      *
      * @param  object $registry
-     * @param  name $key
+     * @param  string $key
      * @return mixed|null
      * @access protected
      */

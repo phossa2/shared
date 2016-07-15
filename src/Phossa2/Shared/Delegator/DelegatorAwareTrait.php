@@ -42,7 +42,7 @@ trait DelegatorAwareTrait
     /**
      * {@inheritDoc}
      */
-    public function setDelegator(DelegatorInterface $delegator)
+    public function setDelegator(DelegatorInterface $delegator = null)
     {
         $this->delegator = $delegator;
         return $this;

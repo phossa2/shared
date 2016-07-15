@@ -21,7 +21,7 @@ namespace Phossa2\Shared\Delegator;
  *
  * @package Phossa2\Shared
  * @author  Hong Zhang <phossa@126.com>
- * @version 2.0.8
+ * @version 2.0.15
  * @since   2.0.8 added
  * @since   2.0.14 added clearAllRegistries
  * @since   2.0.15 clear all, moved to new namespace

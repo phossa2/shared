@@ -25,7 +25,7 @@ use Phossa2\Shared\Exception\NotFoundException;
  * @package Phossa2\Shared
  * @author  Hong Zhang <phossa@126.com>
  * @see     DelegatorAwareInterface
- * @version 2.0.8
+ * @version 2.0.15
  * @since   2.0.8  added
  * @since   2.0.15 moved to new namespace
  */

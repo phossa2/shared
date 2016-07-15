@@ -25,7 +25,7 @@ use Phossa2\Shared\Exception\RuntimeException;
  * @package Phossa2\Shared
  * @author  Hong Zhang <phossa@126.com>
  * @see     ReferenceInterface
- * @version 2.0.8
+ * @version 2.0.15
  * @since   2.0.4 added
  * @since   2.0.6 added reference cache support
  * @since   2.0.8 added delegator support, changed to LocaclCache

@@ -12,7 +12,7 @@
  */
 /*# declare(strict_types=1); */
 
-namespace Phossa2\Shared\Reference;
+namespace Phossa2\Shared\Delegator;
 
 use Phossa2\Shared\Message\Message;
 use Phossa2\Shared\Exception\NotFoundException;
@@ -26,7 +26,8 @@ use Phossa2\Shared\Exception\NotFoundException;
  * @author  Hong Zhang <phossa@126.com>
  * @see     DelegatorAwareInterface
  * @version 2.0.8
- * @since   2.0.8 added
+ * @since   2.0.8  added
+ * @since   2.0.15 moved to new namespace
  */
 trait DelegatorAwareTrait
 {

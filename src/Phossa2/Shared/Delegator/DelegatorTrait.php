@@ -12,10 +12,7 @@
  */
 /*# declare(strict_types=1); */
 
-namespace Phossa2\Shared\Reference;
-
-use Phossa2\Shared\Message\Message;
-use Phossa2\Shared\Exception\InvalidArgumentException;
+namespace Phossa2\Shared\Delegator;
 
 /**
  * DelegatorTrait
@@ -26,7 +23,8 @@ use Phossa2\Shared\Exception\InvalidArgumentException;
  * @author  Hong Zhang <phossa@126.com>
  * @see     DelegatorInterface
  * @version 2.0.8
- * @since   2.0.8 added
+ * @since   2.0.8  added
+ * @since   2.0.15 modified, moved to new namespace
  */
 trait DelegatorTrait
 {
@@ -39,7 +37,7 @@ trait DelegatorTrait
     protected $lookup_pool = [];
 
     /**
-     * cached lookup key
+     * cached found key
      *
      * @var    string
      * @access private
@@ -47,7 +45,7 @@ trait DelegatorTrait
     private $cache_key;
 
     /**
-     * cached lookup registry
+     * cached lookup registry for found $cache_key
      *
      * @var    object
      * @access private
@@ -55,45 +53,36 @@ trait DelegatorTrait
     private $cache_reg;
 
     /**
-     * {@inheritDoc}
+     * Append one registry to lookup pool
+     *
+     * @param  object $registry
+     * @return $this
+     * @access protected
      */
-    public function addRegistry($registry)
+    protected function addRegistry($registry)
     {
-        /* @var $registry DelegatorAwareInterface */
-
-        // check registry type
-        if (!$this->isValidRegistry($registry)) {
-            throw new InvalidArgumentException(
-                Message::get(Message::MSG_ARGUMENT_INVALID, get_class($registry)),
-                Message::MSG_ARGUMENT_INVALID
-            );
-        }
-
-        // remove this registry if exists already
+        // remove it if exists already
         $this->removeFromLookup($registry);
 
-        // register delegator
-        $registry->setDelegator($this);
+        // set delegator in registry
+        if ($registry instanceof DelegatorAwareInterface) {
+            $registry->setDelegator($this);
+        }
 
-        // append to the pool end
+        // append to the pool
         $this->lookup_pool[] = $registry;
 
         return $this;
     }
 
     /**
-     * {@inheritDoc}
+     * check existence in the whole lookup pool
+     *
+     * @param  string $key
+     * @return bool
+     * @access protected
      */
-    public function clearAllRegistries()
-    {
-        $this->lookup_pool = [];
-        return $this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function hasInLookup(/*# string */ $key)/*# : bool */
+    protected function hasInLookup(/*# string */ $key)/*# : bool */
     {
         foreach ($this->lookup_pool as $registry) {
             if ($this->hasInRegistry($registry, $key)) {
@@ -106,11 +95,15 @@ trait DelegatorTrait
     }
 
     /**
-     * {@inheritDoc}
+     * get from lookup pool, return NULL if not found
+     *
+     * @param  string $key
+     * @return mixed|null
+     * @access protected
      */
-    public function getFromLookup(/*# string */ $key)
+    protected function getFromLookup(/*# string */ $key)
     {
-        // lookup already ? try lookup first
+        // found already ? or try find
         if ($key === $this->cache_key || $this->hasInLookup($key)) {
             return $this->getFromRegistry($this->cache_reg, $key);
         }
@@ -119,7 +112,7 @@ trait DelegatorTrait
     }
 
     /**
-     * Remove one object from the pool
+     * Remove one registry from the pool
      *
      * @param  object $registry
      * @return $this
@@ -129,6 +122,9 @@ trait DelegatorTrait
     {
         foreach ($this->lookup_pool as $idx => $reg) {
             if ($registry === $reg) {
+                if ($reg instanceof DelegatorAwareInterface) {
+                    $reg->setDelegator(null);
+                }
                 unset($this->lookup_pool[$idx]);
             }
         }
@@ -136,16 +132,7 @@ trait DelegatorTrait
     }
 
     /**
-     * Is registry type allowed in lookup pool ?
-     *
-     * @param  object $registry
-     * @return bool
-     * @access protected
-     */
-    abstract protected function isValidRegistry($registry)/*# : bool */;
-
-    /**
-     * Try has in registry
+     * Try HAS in registry
      *
      * @param  object $registry
      * @param  name $key
@@ -158,11 +145,11 @@ trait DelegatorTrait
     )/*# : bool */;
 
     /**
-     * Try get from registry
+     * Try GET from registry
      *
      * @param  object $registry
      * @param  name $key
-     * @return mixed
+     * @return mixed|null
      * @access protected
      */
     abstract protected function getFromRegistry(

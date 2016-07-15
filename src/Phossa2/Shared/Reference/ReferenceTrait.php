@@ -30,6 +30,7 @@ use Phossa2\Shared\Exception\RuntimeException;
  * @since   2.0.6 added reference cache support
  * @since   2.0.8 added delegator support, changed to LocaclCache
  * @since   2.0.12 removed LocalCache
+ * @since   2.0.15 removed delegator support, moved to individual library
  */
 trait ReferenceTrait
 {
@@ -210,22 +211,16 @@ trait ReferenceTrait
     }
 
     /**
-     * Lookup reference with delegator or self
+     * Lookup reference
      *
      * @param  string $name
      * @return mixed
      * @access protected
+     * @since  2.0.15 removed delegator support, moved to individual library
      */
     protected function referenceLookup(/*# string */ $name)
     {
-        if ($this instanceof DelegatorAwareInterface &&
-            $this->hasDelegator()
-        ) {
-            $val = $this->getDelegator()->getFromLookup($name);
-        } else {
-            $val = $this->getReference($name);
-        }
-        return $val;
+        return $this->getReference($name);
     }
 
     /**

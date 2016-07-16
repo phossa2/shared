@@ -22,9 +22,10 @@ namespace Phossa2\Shared\Delegator;
  * @package Phossa2\Shared
  * @author  Hong Zhang <phossa@126.com>
  * @see     DelegatorInterface
- * @version 2.0.15
+ * @version 2.0.16
  * @since   2.0.8  added
  * @since   2.0.15 modified, moved to new namespace
+ * @since   2.0.16 added clearCache()
  */
 trait DelegatorTrait
 {
@@ -129,6 +130,16 @@ trait DelegatorTrait
             }
         }
         return $this;
+    }
+
+    /**
+     * Clear lookup cache
+     *
+     * @access protected
+     */
+    protected function clearCache()
+    {
+        $this->cache_key = null;
     }
 
     /**

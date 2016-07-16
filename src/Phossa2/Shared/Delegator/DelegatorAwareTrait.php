@@ -63,15 +63,13 @@ trait DelegatorAwareTrait
     public function getDelegator(
         /*# bool */ $recursive = false
     )/*# : DelegatorInterface */ {
-        if ($this->hasDelegator()) {
-            $del = $this->delegator;
-            while ($recursive &&
-                $del instanceof DelegatorAwareInterface &&
-                $del->hasDelegator()
-            ) {
-                $del = $del->getDelegator();
-            }
-            return $del;
+        $true = $this->hasDelegator();
+        while ($true) {
+            $dele = $this->delegator;
+            $true = $recursive &&
+                    $dele instanceof DelegatorAwareInterface &&
+                    $dele->hasDelegator();
+            if (!$true) return $dele;
         }
 
         throw new NotFoundException(

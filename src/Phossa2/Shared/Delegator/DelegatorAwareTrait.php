@@ -63,18 +63,32 @@ trait DelegatorAwareTrait
     public function getDelegator(
         /*# bool */ $recursive = false
     )/*# : DelegatorInterface */ {
-        $true = $this->hasDelegator();
-        while ($true) {
+        if ($this->hasDelegator()) {
             $dele = $this->delegator;
-            $true = $recursive &&
-                    $dele instanceof DelegatorAwareInterface &&
-                    $dele->hasDelegator();
-            if (!$true) return $dele;
+            if ($this->isRecursiveDelegator($recursive, $dele)) {
+                return $dele->getDelegator($recursive);
+            }
+            return $dele;
         }
 
         throw new NotFoundException(
             Message::get(Message::MSG_DELEGATOR_UNKNOWN, get_called_class()),
             Message::MSG_DELEGATOR_UNKNOWN
         );
+    }
+
+    /**
+     * Is delegatorAware recursively
+     *
+     * @param  bool $recursive
+     * @param  object $object
+     * @access protected
+     */
+    protected function isRecursiveDelegator(
+        /*# bool */ $recursive, $object
+    )/*#: bool */ {
+        return $recursive &&
+            $object instanceof DelegatorAwareInterface &&
+            $object->hasDelegator();
     }
 }

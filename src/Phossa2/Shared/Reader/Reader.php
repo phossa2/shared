@@ -25,10 +25,11 @@ use Phossa2\Shared\Exception\RuntimeException;
  *
  * @package Phossa2\Shared
  * @author  Hong Zhang <phossa@126.com>
- * @version 2.0.2
+ * @version 2.0.16
  * @since   2.0.2 added
+ * @since   2.0.16 updated
  */
-class Reader extends StaticAbstract implements ReaderInterface
+class Reader extends StaticAbstract
 {
     /**
      * supported types
@@ -40,11 +41,22 @@ class Reader extends StaticAbstract implements ReaderInterface
     protected static $supported = ['ini', 'json', 'php', 'xml', 'serialized'];
 
     /**
-     * {@inheritDoc}
+     * Read, parse & return contents from the $path
+     *
+     * @param  string $path
+     * @param  string $type force this type
+     * @return mixed
+     * @throws NotFoundException if $path not found
+     * @throws RuntimeException if something goes wrong
+     * @access public
+     * @since  2.0.16 added $type param
+     * @static
      */
-    public static function readFile(/*# string */ $path)
-    {
-        $suffix = substr($path, strpos($path, '.') + 1);
+    public static function readFile(
+        /*# string */ $path,
+        /*# string */ $type = ''
+    ) {
+        $suffix = $type ?: substr($path, strpos($path, '.') + 1);
 
         if (!static::isSupported($suffix)) {
             throw new RuntimeException(

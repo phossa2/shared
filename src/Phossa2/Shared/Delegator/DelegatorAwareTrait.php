@@ -28,6 +28,7 @@ use Phossa2\Shared\Exception\NotFoundException;
  * @version 2.0.15
  * @since   2.0.8  added
  * @since   2.0.15 moved to new namespace
+ * @since   2.0.17 updated getDelegator()
  */
 trait DelegatorAwareTrait
 {
@@ -59,10 +60,18 @@ trait DelegatorAwareTrait
     /**
      * {@inheritDoc}
      */
-    public function getDelegator()/*# : DelegatorInterface */
-    {
+    public function getDelegator(
+        /*# bool */ $recursive = false
+    )/*# : DelegatorInterface */ {
         if ($this->hasDelegator()) {
-            return $this->delegator;
+            $del = $this->delegator;
+            while ($recursive &&
+                $del instanceof DelegatorAwareInterface &&
+                $del->hasDelegator()
+            ) {
+                $del = $del->getDelegator();
+            }
+            return $del;
         }
 
         throw new NotFoundException(

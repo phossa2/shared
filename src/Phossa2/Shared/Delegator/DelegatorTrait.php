@@ -25,7 +25,7 @@ namespace Phossa2\Shared\Delegator;
  * @version 2.0.16
  * @since   2.0.8  added
  * @since   2.0.15 modified, moved to new namespace
- * @since   2.0.16 added clearCache()
+ * @since   2.0.16 added clearLookupCache()
  */
 trait DelegatorTrait
 {
@@ -137,7 +137,7 @@ trait DelegatorTrait
      *
      * @access protected
      */
-    protected function clearCache()
+    protected function clearLookupCache()
     {
         $this->cache_key = null;
     }

@@ -24,6 +24,7 @@ use Phossa2\Shared\Exception\NotFoundException;
  * @version 2.0.15
  * @since   2.0.8  added
  * @since   2.0.15 moved to new namespace, allows null in setDelegator()
+ * @since   2.0.17 updated getDelegator()
  */
 interface DelegatorAwareInterface
 {
@@ -48,12 +49,16 @@ interface DelegatorAwareInterface
     public function hasDelegator()/*# : bool */;
 
     /**
-     * Try get the delegator
+     * Try get the delegator (recursively)
      *
+     * @param  bool $recursive
      * @return DelegatorInterface
      * @throws NotFoundException if delegator not found
      * @access public
+     * @since  2.0.17 added param $recursive
      * @api
      */
-    public function getDelegator()/*# : DelegatorInterface */;
+    public function getDelegator(
+        /*# bool */ $recursive = false
+    )/*# : DelegatorInterface */;
 }

@@ -34,7 +34,7 @@ interface DelegatorAwareInterface
      * @param  DelegatorInterface $delegator
      * @return $this
      * @access public
-     * @since  2.0.15 $delegator accepts null
+     * @since  2.0.15 delegator accepts null
      * @api
      */
     public function setDelegator(DelegatorInterface $delegator = null);

@@ -12,9 +12,7 @@
  */
 /*# declare(strict_types=1); */
 
-namespace Phossa2\Shared;
-
-use Phossa2\Shared\Queue\PriorityQueueInterface;
+namespace Phossa2\Shared\Queue;
 
 /**
  * PriorityQueueTrait

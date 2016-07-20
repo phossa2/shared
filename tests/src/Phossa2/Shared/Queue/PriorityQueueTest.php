@@ -8,7 +8,7 @@ namespace Phossa2\Shared\Queue;
 class PriorityQueueTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var    \PriorityQueue
+     * @var    PriorityQueue
      * @access protected
      */
     protected $object;
@@ -20,9 +20,7 @@ class PriorityQueueTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        require_once __DIR__ . '/PriorityQueue.php';
-
-        $this->object = new \PriorityQueue();
+        $this->object = new PriorityQueue();
     }
 
     /**
@@ -169,7 +167,7 @@ class PriorityQueueTest extends \PHPUnit_Framework_TestCase
         $this->object->insert($call1, 10);
 
         // queue 2
-        $que2 = new \PriorityQueue();
+        $que2 = new PriorityQueue();
         $que2->insert($call2, 20);
 
         $que3 = $this->object->combine($que2);

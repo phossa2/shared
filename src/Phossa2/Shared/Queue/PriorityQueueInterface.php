@@ -25,6 +25,7 @@ namespace Phossa2\Shared\Queue;
  * @author  Hong Zhang <phossa@126.com>
  * @version 2.0.20
  * @since   2.0.20 added
+ * @since   2.0.21 updated to store extra data
  */
 interface PriorityQueueInterface extends \IteratorAggregate, \Countable
 {
@@ -33,11 +34,13 @@ interface PriorityQueueInterface extends \IteratorAggregate, \Countable
      *
      * @param  mixed $data
      * @param  int $priority priority, higher number retrieved first
+     * @param  mixed $extra extra data to store
      * @return $this
      * @access public
+     * @since  2.0.21 added extra data
      * @api
      */
-    public function insert($data, /*# int */ $priority = 0);
+    public function insert($data, /*# int */ $priority = 0, $extra = null);
 
     /**
      * Remove data from the queue if any

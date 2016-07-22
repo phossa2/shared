@@ -22,6 +22,7 @@ namespace Phossa2\Shared\Queue;
  * @see     PriorityQueueInterface
  * @version 2.0.20
  * @since   2.0.20 added
+ * @since   2.0.21 updated to store extra data
  */
 trait PriorityQueueTrait
 {
@@ -51,8 +52,10 @@ trait PriorityQueueTrait
 
     /**
      * {@inheritDoc}
+     *
+     * @since  2.0.21 added extra data
      */
-    public function insert($data, /*# int */ $priority = 0)
+    public function insert($data, /*# int */ $priority = 0, $extra = null)
     {
         // fix priority
         $pri = $this->fixPriority((int) $priority);
@@ -64,7 +67,9 @@ trait PriorityQueueTrait
         $this->remove($data);
 
         // added to the queue
-        $this->queue[$key] = ['data' => $data, 'priority' => $pri];
+        $this->queue[$key] = [
+            'data' => $data, 'priority' => $pri, 'extra' => $extra
+        ];
 
         // mark as not sorted
         $this->sorted = false;
@@ -106,7 +111,7 @@ trait PriorityQueueTrait
 
         // insert into new queue
         foreach ($queue as $data) {
-            $nqueue->insert($data['data'], $data['priority']);
+            $nqueue->insert($data['data'], $data['priority'], $data['extra']);
         }
 
         return $nqueue;

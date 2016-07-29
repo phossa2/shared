@@ -58,12 +58,12 @@ interface ErrorAwareInterface
      *
      * @param  string $message (optional) error message
      * @param  string $code (optional) error code
-     * @return $this
+     * @return false
      * @access public
      * @api
      */
     public function setError(
         /*# string */ $message = '',
         /*# string */ $code = ''
-    );
+    )/*# : bool */;
 }

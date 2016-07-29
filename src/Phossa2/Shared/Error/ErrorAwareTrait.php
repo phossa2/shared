@@ -81,7 +81,7 @@ trait ErrorAwareTrait
     public function setError(
         /*# string */ $message = '',
         /*# string */ $code = ''
-    ) {
+    )/*# : bool */ {
         $this->error = (string) $message;
 
         // zero ?
@@ -92,6 +92,6 @@ trait ErrorAwareTrait
             $this->error_code = $zcode;
         }
 
-        return $this;
+        return false;
     }
 }

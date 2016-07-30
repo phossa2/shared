@@ -66,4 +66,13 @@ interface ErrorAwareInterface
         /*# string */ $message = '',
         /*# string */ $code = ''
     )/*# : bool */;
+
+    /**
+     * Retrieve error from object and set own
+     *
+     * @param  ErrorAwareInterface $obj
+     * @access public
+     * @api
+     */
+    public function copyError(ErrorAwareInterface $obj);
 }

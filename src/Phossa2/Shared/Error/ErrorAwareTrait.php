@@ -94,4 +94,14 @@ trait ErrorAwareTrait
 
         return false;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function copyError(ErrorAwareInterface $obj)
+    {
+        if ($obj->hasError()) {
+            $this->setError($obj->getError(), $obj->getErrorCode());
+        }
+    }
 }

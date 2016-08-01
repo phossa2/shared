@@ -84,6 +84,11 @@ class Message extends MessageAbstract
      */
     const MSG_SHAREABLE_FAIL = 1606161080;
 
+    /*
+     * Extension method "%s" loaded already
+     */
+    const MSG_EXTENSION_METHOD = 1606161090;
+
     /**
      * {@inheritDoc}
      */
@@ -100,5 +105,6 @@ class Message extends MessageAbstract
         self::MSG_DELEGATOR_UNKNOWN => 'Delegator not found for "%s"',
         self::MSG_ARGUMENT_INVALID => 'Invalid argument "%s", expecting "%s"',
         self::MSG_SHAREABLE_FAIL => 'Set shareable failed for scope "%s"',
+        self::MSG_EXTENSION_METHOD => 'Extension method "%s" loaded already',
     ];
 }

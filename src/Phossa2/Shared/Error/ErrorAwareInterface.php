@@ -70,9 +70,9 @@ interface ErrorAwareInterface
     /**
      * Retrieve error from object and set own
      *
-     * @param  ErrorAwareInterface $obj
+     * @param  object $obj
      * @access public
      * @api
      */
-    public function copyError(ErrorAwareInterface $obj);
+    public function copyError($obj);
 }

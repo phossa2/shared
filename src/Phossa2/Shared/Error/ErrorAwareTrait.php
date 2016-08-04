@@ -98,9 +98,9 @@ trait ErrorAwareTrait
     /**
      * {@inheritDoc}
      */
-    public function copyError(ErrorAwareInterface $obj)
+    public function copyError($obj)
     {
-        if ($obj->hasError()) {
+        if ($obj instanceof ErrorAwareInterface) {
             $this->setError($obj->getError(), $obj->getErrorCode());
         }
     }

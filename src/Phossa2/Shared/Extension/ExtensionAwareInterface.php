@@ -30,7 +30,7 @@ interface ExtensionAwareInterface
      * Add one extension
      *
      * @param  ExtensionInterface $ext
-     * @param  bool $force force override existing methods
+     * @param  bool $forceOverride force override existing methods
      * @return $this
      * @throws LogicException if anything goes wrong
      * @access public

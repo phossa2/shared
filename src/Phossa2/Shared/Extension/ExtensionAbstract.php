@@ -49,7 +49,6 @@ abstract class ExtensionAbstract extends ObjectAbstract implements ExtensionInte
      */
     public function methodsAvailable()/*# : array */
     {
-        // e.g. ['connect', 'method2']
         return [];
     }
 

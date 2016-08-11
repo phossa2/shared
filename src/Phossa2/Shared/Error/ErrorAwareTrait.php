@@ -70,7 +70,7 @@ trait ErrorAwareTrait
     /**
      * {@inheritDoc}
      */
-    public function getErrorCode()/*# : int */
+    public function getErrorCode()/*# : string */
     {
         return $this->error_code;
     }

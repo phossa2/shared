@@ -23,6 +23,7 @@ namespace Phossa2\Shared\Base;
  * @author  Hong Zhang <phossa@126.com>
  * @version 2.0.0
  * @since   2.0.0 added
+ * @since   2.0.24 added setProperties()
  */
 interface ClassNameInterface
 {
@@ -52,4 +53,14 @@ interface ClassNameInterface
      * @api
      */
     public static function getNameSpace()/*# : string */;
+
+    /**
+     * Set object properties
+     *
+     * @param  array $properties
+     * @access public
+     * @since  2.0.24 added
+     * @api
+     */
+    public function setProperties(array $properties = []);
 }

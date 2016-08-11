@@ -38,4 +38,5 @@ return [
     Message::MSG_ARGUMENT_INVALID => '参数形式 "%s" 不对，期望形式是 "%s"',
     Message::MSG_SHAREABLE_FAIL => '在域  "%s" 中设置实例共享失败',
     Message::MSG_EXTENSION_METHOD => '扩展方法 "%s" 已经存在了',
+    Message::MSG_PROPERTY_UNKNOWN => '属性 "%s" 在类 "%s" 中未知',
 ];

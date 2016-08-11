@@ -14,6 +14,8 @@
 
 namespace Phossa2\Shared\Base;
 
+use Phossa2\Shared\Message\Message;
+
 /**
  * ClassNameTrait
  *
@@ -25,6 +27,7 @@ namespace Phossa2\Shared\Base;
  * @author  Hong Zhang <phossa@126.com>
  * @version 2.0.0
  * @since   2.0.0 added
+ * @since   2.0.24 added setProperties()
  */
 trait ClassNameTrait
 {
@@ -67,5 +70,29 @@ trait ClassNameTrait
     {
         $className = static::getClassName();
         return substr($className, 0, strrpos($className, '\\'));
+    }
+
+    /**
+     * Set object properties
+     *
+     * @param  array $properties
+     * @access public
+     * @since  2.0.24 added
+     * @api
+     */
+    final public function setProperties(array $properties = [])
+    {
+        foreach ($properties as $name => $value) {
+            if (property_exists($this, $name)) {
+                $this->$name = $value;
+            } else {
+                trigger_error(
+                    Message::get(
+                        Message::MSG_PROPERTY_UNKNOWN, $name, get_class($this)
+                    ),
+                    E_USER_WARNING
+                );
+            }
+        }
     }
 }

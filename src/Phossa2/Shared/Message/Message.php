@@ -40,6 +40,11 @@ class Message extends MessageAbstract
     const MSG_METHOD_NOTFOUND = 1606161035;
 
     /*
+     * Property "%s" unknown for class "%s"
+     */
+    const MSG_PROPERTY_UNKNOWN = 1606161036;
+
+    /*
      * Path "%s" not found
      */
     const MSG_PATH_NOTFOUND = 1606161040;
@@ -106,5 +111,6 @@ class Message extends MessageAbstract
         self::MSG_ARGUMENT_INVALID => 'Invalid argument "%s", expecting "%s"',
         self::MSG_SHAREABLE_FAIL => 'Set shareable failed for scope "%s"',
         self::MSG_EXTENSION_METHOD => 'Extension method "%s" loaded already',
+        self::MSG_PROPERTY_UNKNOWN => 'Property "%s" unknown for class "%s"',
     ];
 }

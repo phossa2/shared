@@ -22,8 +22,9 @@ namespace Phossa2\Shared\Error;
  * @package Phossa2\Shared
  * @author  Hong Zhang <phossa@126.com>
  * @see     ErrorAwareInterface
- * @version 2.0.22
+ * @version 2.0.24
  * @since   2.0.22 added
+ * @since   2.0.24 added flushError()
  */
 trait ErrorAwareTrait
 {
@@ -103,5 +104,14 @@ trait ErrorAwareTrait
         if ($obj instanceof ErrorAwareInterface) {
             $this->setError($obj->getError(), $obj->getErrorCode());
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function flushError()/*# : bool */
+    {
+        $this->setError();
+        return true;
     }
 }

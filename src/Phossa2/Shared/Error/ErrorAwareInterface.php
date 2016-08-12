@@ -19,8 +19,9 @@ namespace Phossa2\Shared\Error;
  *
  * @package Phossa2\Shared
  * @author  Hong Zhang <phossa@126.com>
- * @version 2.0.22
+ * @version 2.0.24
  * @since   2.0.22 added
+ * @since   2.0.24 added flushError()
  */
 interface ErrorAwareInterface
 {
@@ -75,4 +76,14 @@ interface ErrorAwareInterface
      * @api
      */
     public function copyError($obj);
+
+    /**
+     * Reset the error, returns true
+     *
+     * @return true
+     * @access public
+     * @since  2.0.24 added
+     * @api
+     */
+    public function flushError()/*# : bool */;
 }

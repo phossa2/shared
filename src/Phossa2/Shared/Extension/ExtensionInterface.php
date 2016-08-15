@@ -27,7 +27,7 @@ interface ExtensionInterface
     /**
      * Array of method names this extension provides
      *
-     * @return array
+     * @return string[]
      * @access public
      * @api
      */

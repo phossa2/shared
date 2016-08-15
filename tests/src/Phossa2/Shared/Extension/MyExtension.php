@@ -14,11 +14,9 @@ class MyExtension extends ExtensionAbstract
     }
 
     /**
-     *
-     * @param  ExtensionAwareInterface $server
-     * @access protected
+     *{@inheritDoc}
      */
-    protected function bootExtension(ExtensionAwareInterface $server)
+    protected function bootExtension()
     {
     }
 

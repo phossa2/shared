@@ -23,8 +23,8 @@ use Phossa2\Shared\Base\ObjectAbstract;
  * @author  Hong Zhang <phossa@126.com>
  * @see     ObjectAbstract
  * @see     ExtensionInterface
- * @version 2.0.0
- * @since   2.0.0 added
+ * @version 2.0.23
+ * @since   2.0.23 added
  */
 abstract class ExtensionAbstract extends ObjectAbstract implements ExtensionInterface
 {
@@ -62,7 +62,7 @@ abstract class ExtensionAbstract extends ObjectAbstract implements ExtensionInte
             $this->server = $server;
 
             // call user defined boot
-            $this->bootExtension($server);
+            $this->bootExtension();
 
             // call your own bootMethod here
             $this->booted = true;
@@ -70,9 +70,9 @@ abstract class ExtensionAbstract extends ObjectAbstract implements ExtensionInte
     }
 
     /**
+     * The real boot method
      *
-     * @param  ExtensionAwareInterface $server
      * @access protected
      */
-    abstract protected function bootExtension(ExtensionAwareInterface $server);
+    abstract protected function bootExtension();
 }

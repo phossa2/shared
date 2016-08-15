@@ -24,8 +24,8 @@ use Phossa2\Shared\Exception\BadMethodCallException;
  * @package Phossa2\Shared
  * @author  Hong Zhang <phossa@126.com>
  * @see     ExtensionAwareInterface
- * @version 2.0.0
- * @since   2.0.0 added
+ * @version 2.0.23
+ * @since   2.0.23 added
  */
 trait ExtensionAwareTrait
 {
@@ -72,6 +72,7 @@ trait ExtensionAwareTrait
             }
             $this->extension_methods[$method] = $ext;
         }
+        $ext->boot($this);
         return $this;
     }
 
@@ -99,9 +100,6 @@ trait ExtensionAwareTrait
     {
         /* @var $ext ExtensionInterface */
         $ext = $this->extension_methods[$method];
-
-        // boot extension if not yet
-        $ext->boot($this);
 
         // execute extesion method
         return call_user_func_array([$ext, $method], $args);

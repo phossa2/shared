@@ -1,7 +1,6 @@
 <?php
 
 use Phossa2\Shared\Extension\ExtensionAbstract;
-use Phossa2\Shared\Extension\ExtensionAwareInterface;
 
 class MyExtension extends ExtensionAbstract
 {

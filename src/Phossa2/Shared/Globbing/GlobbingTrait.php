@@ -21,8 +21,9 @@ namespace Phossa2\Shared\Globbing;
  *
  * @package Phossa2\Shared
  * @author  Hong Zhang <phossa@126.com>
- * @version 2.0.20
+ * @version 2.0.25
  * @since   2.0.20 added
+ * @since   2.0.25 ending '*' now matches everything
  */
 trait GlobbingTrait
 {
@@ -77,11 +78,9 @@ trait GlobbingTrait
         if ($name === $exactName) {
             return true;
         } elseif (false !== strpos($name, '*')) {
-            // replace '.' and '*'
             $pat = str_replace(array('.', '*'), array('[.]', '[^.]*+'), $name);
             // last '*' should be different
-            $pat = substr($pat, -6) != '[^.]*+' ? $pat :
-                (substr($pat, 0, -6) . '.*+');
+            $pat = substr($pat, -6) != '[^.]*+' ? $pat : (substr($pat, 0, -6) . '.*+');
             return (bool) preg_match('~^' . $pat . '$~', $exactName);
         } else {
             return false;

@@ -74,10 +74,14 @@ trait GlobbingTrait
         /*# string */ $exactName,
         /*# string */ $name
     )/*# : bool */ {
-        if ('*' === $name || $name === $exactName) {
+        if ($name === $exactName) {
             return true;
         } elseif (false !== strpos($name, '*')) {
+            // replace '.' and '*'
             $pat = str_replace(array('.', '*'), array('[.]', '[^.]*+'), $name);
+            // last '*' should be different
+            $pat = substr($pat, -6) != '[^.]*+' ? $pat :
+                (substr($pat, 0, -6) . '.*+');
             return (bool) preg_match('~^' . $pat . '$~', $exactName);
         } else {
             return false;

@@ -114,7 +114,7 @@ class GlobbingTraitTest extends \PHPUnit_Framework_TestCase
     {
         $data = ['*', '*.*', '*.*.*', 'l*', 'l*.*', 'login.*'];
         $this->assertEquals(
-            ['*', '*.*', 'l*.*', 'login.*'],
+            ['*', '*.*', 'l*', 'l*.*', 'login.*'],
             $this->invokeMethod(
                 'globbingNames',
                 ['login.test', $data]

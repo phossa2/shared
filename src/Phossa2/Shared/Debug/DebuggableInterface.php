@@ -47,6 +47,24 @@ interface DebuggableInterface
     public function setDebugger(LoggerInterface $logger);
 
     /**
+     * Delete debugger to object $object
+     *
+     * @return object $object
+     * @access public
+     * @api
+     */
+    public function delegateDebugger($object);
+
+    /**
+     * Both enabled and debugger is set
+     *
+     * @return bool
+     * @access public
+     * @api
+     */
+    public function isDebugging()/*# : bool */;
+
+    /**
      * Send debug message
      *
      * @param  string $message

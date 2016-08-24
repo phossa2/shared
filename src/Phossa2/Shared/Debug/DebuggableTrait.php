@@ -60,9 +60,30 @@ trait DebuggableTrait
     /**
      * {@inheritDoc}
      */
+    public function delegateDebugger($object)
+    {
+        if ($this->isDebugging() &&
+            $object instanceof DebuggableInterface
+        ) {
+            $object->enableDebug(true)->setDebugger($this->debug_logger);
+        }
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isDebugging()/*# : bool */
+    {
+        return (bool) ($this->debug_mode && $this->debug_logger);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function debug(/*# string */ $message)
     {
-        if ($this->debug_mode && $this->debug_logger) {
+        if ($this->isDebugging()) {
             $this->debug_logger->debug(
                 $message,
                 ['className' => get_class($this)]

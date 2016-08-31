@@ -88,7 +88,9 @@ trait ClassNameTrait
             } else {
                 trigger_error(
                     Message::get(
-                        Message::MSG_PROPERTY_UNKNOWN, $name, get_class($this)
+                        Message::MSG_PROPERTY_UNKNOWN,
+                        $name,
+                        get_class($this)
                     ),
                     E_USER_WARNING
                 );

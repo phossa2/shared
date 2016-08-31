@@ -72,7 +72,11 @@ trait ReferenceTrait
         $s = preg_quote($start);
         $e = preg_quote($end);
         $this->ref_pattern = sprintf(
-            "~(%s((?:(?!%s|%s).)+?)%s)~", $s, $s, $e, $e
+            "~(%s((?:(?!%s|%s).)+?)%s)~",
+            $s,
+            $s,
+            $e,
+            $e
         );
     }
 

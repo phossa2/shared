@@ -176,4 +176,3 @@ trait PriorityQueueTrait
         return $this;
     }
 }
-

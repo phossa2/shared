@@ -85,7 +85,8 @@ trait DelegatorAwareTrait
      * @access protected
      */
     protected function isRecursiveDelegator(
-        /*# bool */ $recursive, $object
+        /*# bool */ $recursive,
+        $object
     )/*#: bool */ {
         return $recursive &&
             $object instanceof DelegatorAwareInterface &&

@@ -1,0 +1,34 @@
+---
+engines:
+  duplication:
+    enabled: false
+    config:
+      languages:
+      - javascript
+      - php
+  eslint:
+    enabled: true
+  fixme:
+    enabled: true
+  phpmd:
+    enabled: true
+    checks:
+      Naming/ShortVariable:
+        enabled: false
+      CleanCode/ElseExpression:
+        enabled: false
+      CleanCode/BooleanArgumentFlag:
+        enabled: false
+      CleanCode/StaticAccess:
+        enabled: false
+      Controversial/CamelCasePropertyName:
+        enabled: false
+      Controversial/CamelCaseVariableName:
+        enabled: false
+ratings:
+  paths:
+  - "**.js"
+  - "**.php"
+exclude_paths:
+- tests/
+- build/

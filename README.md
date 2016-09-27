@@ -1,10 +1,11 @@
 # phossa2/shared
 [![Build Status](https://travis-ci.org/phossa2/shared.svg?branch=master)](https://travis-ci.org/phossa2/shared)
 [![Code Quality](https://scrutinizer-ci.com/g/phossa2/shared/badges/quality-score.png?b=master)](https://travis-ci.org/phossa2/shared)
+[![Code Climate](https://codeclimate.com/github/phossa2/shared/badges/gpa.svg)](https://codeclimate.com/github/phossa2/shared)
 [![PHP 7 ready](http://php7ready.timesplinter.ch/phossa2/shared/master/badge.svg)](https://travis-ci.org/phossa2/shared)
 [![HHVM](https://img.shields.io/hhvm/phossa2/shared.svg?style=flat)](http://hhvm.h4cc.de/package/phossa2/shared)
 [![Latest Stable Version](https://img.shields.io/packagist/vpre/phossa2/shared.svg?style=flat)](https://packagist.org/packages/phossa2/shared)
-[![License](https://poser.pugx.org/phossa2/shared/license)](http://mit-license.org/)
+[![License](https://img.shields.io/:license-mit-blue.svg)](http://mit-license.org/)
 
 **phossa2/shared** is the shared library for other phossa2 libraries.
 
@@ -28,7 +29,7 @@ or add the following lines to your `composer.json`
 ```json
 {
     "require": {
-       "phossa2/shared": "^2.0.0"
+       "phossa2/shared": "2.*"
     }
 }
 ```
@@ -183,6 +184,23 @@ Features
 - PSR-1, PSR-2, PSR-4 compliant.
 
 - Decoupled packages can be used seperately without the framework.
+
+Change log
+---
+
+Please see [CHANGELOG](CHANGELOG.md) from more information.
+
+Testing
+---
+
+```bash
+$ composer test
+```
+
+Contributing
+---
+
+Please see [CONTRIBUTE](CONTRIBUTE.md) for more information.
 
 Dependencies
 ---

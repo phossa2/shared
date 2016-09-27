@@ -4,7 +4,7 @@
     "license": "MIT",
     "homepage": "https://github.com/phossa2/shared",
     "description": "The shared library for other phossa2 libraries",
-    "keywords": [ "phossa2", "phossa", "library", "php", "framework" ],
+    "keywords": ["phossa2", "phossa", "library", "php", "framework"],
     "authors": [
         {
             "name": "Hong Zhang",
@@ -12,15 +12,14 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
-        "psr/log": "^1.0"
+        "php": ">=5.4.0"
     },
     "require-dev": {
         "phpunit/phpunit": "4.*",
         "squizlabs/php_codesniffer": "2.*"
     },
     "autoload": {
-        "psr-0": { "Phossa2\\Shared\\": "src/" }
+        "psr-4": { "Phossa2\\Shared\\": "src/Shared/" }
     },
     "config": {
         "platform": {
@@ -32,10 +31,9 @@
         "check": "phpcs --standard=psr2 src/",
         "format": "phpcbf --standard=psr2 src/"
     },
-    "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
-            "dev-master": "2.0-dev"
+            "dev-master": "2.1-dev"
         }
     },
     "archive": {

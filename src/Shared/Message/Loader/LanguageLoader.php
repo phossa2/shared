@@ -76,4 +76,12 @@ class LanguageLoader extends ObjectAbstract implements LoaderInterface
 
         return $map;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLanguage()/*# : string */
+    {
+        return $this->language;
+    }
 }

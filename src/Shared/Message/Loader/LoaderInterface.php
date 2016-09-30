@@ -23,8 +23,9 @@ namespace Phossa2\Shared\Message\Loader;
  *
  * @package Phossa2\Shared
  * @author  Hong Zhang <phossa@126.com>
- * @version 2.0.0
+ * @version 2.1.0
  * @since   2.0.0 added
+ * @since   2.1.0 added `getLanguage()`
  */
 interface LoaderInterface
 {
@@ -40,4 +41,12 @@ interface LoaderInterface
     public function loadMessages(
         /*# string */ $className
     )/*# : array */;
+
+    /**
+     * Get current language setting
+     *
+     * @return string
+     * @access public
+     */
+    public function getLanguage()/*# : string */;
 }

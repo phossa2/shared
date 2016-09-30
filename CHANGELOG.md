@@ -3,28 +3,12 @@
 All notable changes to this project will be documented in this file. This
 project adheres to [Semantic Versioning](http://semver.org/).
 
-### [2.0.0] 2016-07-01
+### [2.1.0] 2016-09-30
 
 - Added
 
-  - Nothing
-
-- Fixed
-
-  - Nothing
+  - 2016-09-30 Added `getLanguage()` in `LoaderInterface`
 
 - Changed
-
-  - Nothing
-
-- Deprecated
-
-  - Nothing
-
-- Removed
-
-  - Nothing
-
-- Security
 
   - Nothing

@@ -170,12 +170,12 @@ class ReferenceTraitTest extends \PHPUnit_Framework_TestCase
     /**
      * Dereference an array
      *
-     * @covers Phossa2\Shared\Reference\ReferenceTrait::enableDeRefence()
+     * @covers Phossa2\Shared\Reference\ReferenceTrait::enableDeReference()
      */
-    public function testEnableDeRefence()
+    public function testEnableDeReference()
     {
         $str1 = '${zzz}';
-        $this->object->enableDeRefence(false);
+        $this->object->enableDeReference(false);
         $this->object->deReferenceArray($str1);
         $this->assertEquals('${zzz}', $str1);
     }

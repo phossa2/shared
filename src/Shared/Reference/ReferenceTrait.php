@@ -162,7 +162,7 @@ trait ReferenceTrait
      *
      * @since  2.1.0
      */
-    public function enableDeRefence(/*# bool */ $flag = true)
+    public function enableDeReference(/*# bool */ $flag = true)
     {
         $this->ref_enabled = (bool) $flag;
         return $this;

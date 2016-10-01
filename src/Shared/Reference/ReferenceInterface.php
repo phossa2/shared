@@ -104,5 +104,5 @@ interface ReferenceInterface
      * @access public
      * @api
      */
-    public function enableDeRefence(/*# bool */ $flag = true);
+    public function enableDeReference(/*# bool */ $flag = true);
 }

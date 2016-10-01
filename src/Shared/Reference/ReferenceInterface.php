@@ -23,8 +23,9 @@ use Phossa2\Shared\Exception\RuntimeException;
  *
  * @package Phossa2\Shared
  * @author  Hong Zhang <phossa@126.com>
- * @version 2.0.4
+ * @version 2.1.0
  * @since   2.0.4 added
+ * @since   2.1.0 added `enableDeRefence()`
  */
 interface ReferenceInterface
 {
@@ -94,4 +95,14 @@ interface ReferenceInterface
      * @api
      */
     public function deReferenceArray(&$dataArray);
+
+    /**
+     * Enable or disable dereference
+     *
+     * @param  bool $flag enable or disable
+     * @return $this
+     * @access public
+     * @api
+     */
+    public function enableDeRefence(/*# bool */ $flag = true);
 }

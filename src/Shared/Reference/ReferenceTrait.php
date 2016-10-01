@@ -25,12 +25,13 @@ use Phossa2\Shared\Exception\RuntimeException;
  * @package Phossa2\Shared
  * @author  Hong Zhang <phossa@126.com>
  * @see     ReferenceInterface
- * @version 2.0.15
+ * @version 2.1.0
  * @since   2.0.4 added
  * @since   2.0.6 added reference cache support
  * @since   2.0.8 added delegator support, changed to LocaclCache
  * @since   2.0.12 removed LocalCache
  * @since   2.0.15 removed delegator support, moved to individual library
+ * @since   2.1.0 added `enableDeRefence()`
  */
 trait ReferenceTrait
 {
@@ -57,6 +58,14 @@ trait ReferenceTrait
      * @access protected
      */
     protected $ref_pattern = '~(\$\{((?:(?!\$\{|\}).)+?)\})~';
+
+    /**
+     * dereference enabled
+     *
+     * @var    bool
+     * @access protected
+     */
+    protected $ref_enabled = true;
 
     /**
      * {@inheritDoc}
@@ -101,6 +110,11 @@ trait ReferenceTrait
      */
     public function deReference(/*# string */ $subject)
     {
+        // @since 2.1.0
+        if (!$this->ref_enabled) {
+            return $subject;
+        }
+
         $loop = 0;
         $matched = [];
         while ($this->hasReference($subject, $matched)) {
@@ -125,6 +139,11 @@ trait ReferenceTrait
      */
     public function deReferenceArray(&$dataArray)
     {
+        // @since 2.1.0
+        if (!$this->ref_enabled) {
+            return;
+        }
+
         if (is_string($dataArray)) {
             $dataArray = $this->deReference($dataArray);
         }
@@ -136,6 +155,17 @@ trait ReferenceTrait
         foreach ($dataArray as &$data) {
             $this->dereferenceArray($data);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @since  2.1.0
+     */
+    public function enableDeRefence(/*# bool */ $flag = true)
+    {
+        $this->ref_enabled = (bool) $flag;
+        return $this;
     }
 
     /**

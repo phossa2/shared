@@ -54,10 +54,10 @@ trait SingletonTrait
      * no instantiation from outside
      *
      * @return void
-     * @access private
+     * @access protected
      * @final
      */
-    final private function __construct()
+    protected function __construct()
     {
     }
 

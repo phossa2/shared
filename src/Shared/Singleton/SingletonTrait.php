@@ -41,7 +41,7 @@ trait SingletonTrait
     /**
      * {@inheritDoc}
      */
-    final public static function getInstance()/*# : SingletonInterface */
+    public static function getInstance()/*# : SingletonInterface */
     {
         $class = get_called_class();
         if (!isset(self::$singletons[$class])) {

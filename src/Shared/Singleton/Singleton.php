@@ -14,6 +14,9 @@
 
 namespace Phossa2\Shared\Singleton;
 
+use Phossa2\Shared\Base\ClassNameTrait;
+use Phossa2\Shared\Base\ClassNameInterface;
+
 /**
  * Singleton
  *
@@ -22,10 +25,11 @@ namespace Phossa2\Shared\Singleton;
  * @package Phossa2\Shared
  * @author  Hong Zhang <phossa@126.com>
  * @see     SingletonInterface
+ * @see     ClassNameInterface
  * @version 2.0.28
- * @since   2.0.28 added
+ * @since   2.0.28 added ClassNameInterface
  */
-class Singleton implements SingletonInterface
+class Singleton implements SingletonInterface, ClassNameInterface
 {
-    use SingletonTrait;
+    use SingletonTrait, ClassNameTrait;
 }

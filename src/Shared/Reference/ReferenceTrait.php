@@ -118,13 +118,8 @@ trait ReferenceTrait
         $loop = 0;
         $matched = [];
         while ($this->hasReference($subject, $matched)) {
-            // avoid looping
-            $this->checkReferenceLoop($loop++, $matched[2]);
-
-            // resolve the reference to a value
+            $this->checkReferenceLoop($loop++, $matched[2]); // avoid looping
             $val = $this->resolveReference($matched[2]);
-
-            // value is another string
             if (is_string($val)) {
                 $subject = str_replace($matched[1], $val, $subject);
             } else {

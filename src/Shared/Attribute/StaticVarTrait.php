@@ -43,7 +43,7 @@ trait StaticVarTrait
         $res = $class::${$staticVarName};
 
         // merge with ancestor class' same static variable
-        if ($parent) {
+        if ($parent && property_exists($parent, $staticVarName)) {
             $res = $parent::getStaticVar($staticVarName);
             if ($class::${$staticVarName} != $parent::${$staticVarName}) {
                 $res = array_replace_recursive($res, $class::${$staticVarName});

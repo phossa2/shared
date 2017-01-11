@@ -28,6 +28,7 @@ use Phossa2\Shared\Message\Message;
  * @version 2.0.0
  * @since   2.0.0 added
  * @since   2.0.24 added setProperties()
+ * @since   2.0.29 modified getShortName(), getNamespace() parameters
  */
 trait ClassNameTrait
 {
@@ -47,29 +48,35 @@ trait ClassNameTrait
     /**
      * Returns class name without namespace
      *
+     * @param  string $className optional classname
      * @return string
      * @access public
+     * @since  2.0.29 add $className parameter
      * @final
      * @api
      */
-    final public static function getShortName()/*# : string */
-    {
-        $className = static::getClassName();
-        return substr(strrchr($className, '\\'), 1);
+    final public static function getShortName(
+        /*# string */ $className = ''
+    )/*# : string */ {
+        $class = $className ?: static::getClassName();
+        return substr(strrchr($class, '\\'), 1);
     }
 
     /**
      * Returns namespace of current class
      *
+     * @param  string $className optional classname
      * @return string
      * @access public
+     * @since  2.0.29 add $className parameter
      * @final
      * @api
      */
-    final public static function getNameSpace()/*# : string */
-    {
-        $className = static::getClassName();
-        return substr($className, 0, strrpos($className, '\\'));
+    final public static function getNameSpace(
+        /*# string */ $className = ''
+    )/*# : string */ {
+        $class = $className ?: static::getClassName();
+        return substr($class, 0, strrpos($class, '\\'));
     }
 
     /**

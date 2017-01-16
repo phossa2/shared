@@ -60,4 +60,24 @@ class ClassNameTraitTest extends \PHPUnit_Framework_TestCase
             Object::getNameSpace()
         );
     }
+
+    /**
+     * @covers Phossa2\Shared\Base\ObjectAbstract::getNameSpace()
+     */
+    public function testGetNameSpace()
+    {
+        $this->assertEquals('', Object::getNameSpace('Base'));
+        $this->assertEquals('Test', Object::getNameSpace('Test\\Base'));
+        $this->assertEquals('Bingo\\Test', Object::getNameSpace('Bingo\\Test\\Base'));
+    }
+
+    /**
+     * @covers Phossa2\Shared\Base\ObjectAbstract::getShortName()
+     */
+    public function testGetShortName()
+    {
+        $this->assertEquals('Base', Object::getShortName('Base'));
+        $this->assertEquals('Base', Object::getShortName('Test\\Base'));
+        $this->assertEquals('Base', Object::getShortName('Bingo\\Test\\Base'));
+    }
 }

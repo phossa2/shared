@@ -58,7 +58,8 @@ trait ClassNameTrait
     final public static function getShortName(
         $className = ''
     )/*# : string */ {
-        return substr(strrchr(static::getRealClassName($className), '\\'), 1);
+        $base = strrchr(static::getRealClassName($className), '\\');
+        return $base ? substr($base, 1) : $className;
     }
 
     /**

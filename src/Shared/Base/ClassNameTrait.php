@@ -48,7 +48,7 @@ trait ClassNameTrait
     /**
      * Returns class name without namespace
      *
-     * @param  string $className optional classname
+     * @param  string|object $className optional classname
      * @return string
      * @access public
      * @since  2.0.29 add $className parameter
@@ -56,16 +56,15 @@ trait ClassNameTrait
      * @api
      */
     final public static function getShortName(
-        /*# string */ $className = ''
+        $className = ''
     )/*# : string */ {
-        $class = $className ?: static::getClassName();
-        return substr(strrchr($class, '\\'), 1);
+        return substr(strrchr(static::getRealClassName($className), '\\'), 1);
     }
 
     /**
      * Returns namespace of current class
      *
-     * @param  string $className optional classname
+     * @param  string|object $className optional classname
      * @return string
      * @access public
      * @since  2.0.29 add $className parameter
@@ -75,7 +74,7 @@ trait ClassNameTrait
     final public static function getNameSpace(
         /*# string */ $className = ''
     )/*# : string */ {
-        $class = $className ?: static::getClassName();
+        $class = static::getRealClassName($className);
         return substr($class, 0, strrpos($class, '\\'));
     }
 
@@ -103,5 +102,22 @@ trait ClassNameTrait
                 );
             }
         }
+    }
+
+    /**
+     * Get the classname
+     *
+     * @param  string|object $className
+     * @return string the class name
+     * @access protected
+     */
+    protected static function getRealClassName($className)/*# : string */
+    {
+        if (is_object($className)) {
+            $class = get_class($className);
+        } else {
+            $class = $className ?: get_called_class();
+        }
+        return $class;
     }
 }
